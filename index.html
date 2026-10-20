@@ -34,5 +34,42 @@
         <button  class="bg-slate-900 border border-slate-700">4-4-2</button>
     </div>
 </header>
+    <aside class="max-w-sm bg-slate-800 p-4 text-white border border-slate-700 h-screen">
+        <button class="rounded-xl bg-green-600 px-4 py-3 font-bold hover:bg-green-700 w-full">+ Ajouter un joueur </button>
+        <div class="flex justify-between mt-6">
+            <h3>Effectif</h3>
+            <p class="border border-slate-700 bg-slate-700 rounded-md px-3" >1 joueurs</p>
+        </div>
+        <p class="text-sm text-slate-400 mt-4">Cliquez sur un joueur placé pour voir sa case sur le terrain. 🖊️
+     pour modifier,  🗑️ pour supprimer.</p>
+
+     <div class="rounded-xl border-l border-red-500 bg-slate-700 p-3 mt-4">
+        <div class="flex gap-3">
+            <span class="rounded-full border border-red-500 h-9 w-9 flex  items-center justify-center">1</span>
+            <div class="flex-1">
+                <h3 class="">Bono</h3>
+                <p class="text-orange-400 text-sm">Gardien</p>
+            </div>
+                <button value="modifier">🖊️</button>
+                <button value="supprimer">🗑️</button>
+
+        </div>
+        <select class="mt-3 w-full rounded-md border border-slate-500 bg-slate-700 p-2 text-sm text-white">
+      <option>Sur le banc</option>
+      <option >GB - Gardien</option>
+      <option>DG - Défenseur gauche</option>
+      <option>DC - Défenseur central 1</option>
+      <option>DC - Défenseur central 2</option>
+      <option>DD - Défenseur droit</option>
+      <option>MG - Milieu gauche</option>
+      <option>MC - Milieu central 1</option>
+      <option>MC - Milieu central 2</option>
+      <option>MD - Milieu droit</option>
+      <option>BU - Buteur 1</option>
+      <option>BU - Buteur 2</option>
+        </select>
+     </div>
+    </aside>
+
 </body>
 </html>
