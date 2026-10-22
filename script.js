@@ -47,3 +47,4 @@ nomInput.addEventListener("input", function () {
     nomInput.classList.add("border-red-500");
   }
 });
+
