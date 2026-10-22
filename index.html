@@ -1,267 +1,285 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TACHKILA</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TACHKILA</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
 </head>
 
 <body class="min-h-screen bg-slate-900">
 
-    <header class="w-full min-h-[74px] bg-slate-800 border-b border-slate-700 px-5 py-3 flex flex-wrap items-center justify-between gap-4 text-white">
+  <header
+    class="w-full min-h-[74px] bg-slate-800 border-b border-slate-700 px-5 py-3 flex flex-wrap items-center justify-between gap-4 text-white">
 
-        <div class="flex items-center gap-2">
-            <img class="size-12 shrink-0" src="image/ball.png" alt="Ballon de football">
-            <h1>TACHKILA</h1>
-        </div>
+    <div class="flex items-center gap-2">
+      <img class="size-12 shrink-0" src="image/ball.png" alt="Ballon de football">
+      <h1>TACHKILA</h1>
+    </div>
 
-        <nav>
-            <ul class="flex items-center gap-6">
-                <li class="flex items-center gap-2 text-sm font-bold text-amber-400">
-                    <span class="w-3 h-3 rounded-full bg-amber-500"></span>GB
-                </li>
-                <li class="flex items-center gap-2 text-sm font-bold text-blue-400">
-                    <span class="w-3 h-3 rounded-full bg-blue-500"></span>DEF
-                </li>
-                <li class="flex items-center gap-2 text-sm font-bold text-green-400">
-                    <span class="w-3 h-3 rounded-full bg-green-500"></span>MIL
-                </li>
-                <li class="flex items-center gap-2 text-sm font-bold text-red-400">
-                    <span class="w-3 h-3 rounded-full bg-red-500"></span>ATT
-                </li>
-            </ul>
-        </nav>
+    <nav>
+      <ul class="flex items-center gap-6">
+        <li class="flex items-center gap-2 text-sm font-bold text-amber-400">
+          <span class="w-3 h-3 rounded-full bg-amber-500"></span>GB
+        </li>
+        <li class="flex items-center gap-2 text-sm font-bold text-blue-400">
+          <span class="w-3 h-3 rounded-full bg-blue-500"></span>DEF
+        </li>
+        <li class="flex items-center gap-2 text-sm font-bold text-green-400">
+          <span class="w-3 h-3 rounded-full bg-green-500"></span>MIL
+        </li>
+        <li class="flex items-center gap-2 text-sm font-bold text-red-400">
+          <span class="w-3 h-3 rounded-full bg-red-500"></span>ATT
+        </li>
+      </ul>
+    </nav>
 
-        <div class="flex items-center gap-3">
-            <span class="text-gray-400">Schéma</span>
-            <button class="bg-slate-900 border border-slate-700 rounded-md px-3 py-2">
-                4-4-2
-            </button>
-        </div>
-
-    </header>
-
-    <!-- div containir -->
-    <div class="flex min-h-[calc(100vh-74px)]">
-
-        <!-- ASIDE -->
-        <aside class="w-80 shrink-0 bg-slate-800 p-4 text-white border-r border-slate-700">
-
-            
-<button id="ouvrir"
-  class="rounded-lg bg-green-600 px-5 py-3 font-semibold text-white hover:bg-green-700 w-full">
-  Ajouter un joueur
-</button>
-
-<!-- Modale -->
-<div id="modale"
-  class="fixed inset-0  hidden items-center justify-center bg-black/60 p-4">
-
-  <div class="w-full max-w-xl rounded-2xl border border-slate-700 bg-slate-800 p-7 text-white shadow-2xl">
-
-    <div class="mb-8 flex items-center justify-between">
-      <h2 class="text-xl font-bold ">Ajouter un joueur</h2>
-
-      <button id="fermer"
-        class="text-2xl leading-none text-slate-400 hover:text-white">
-        &times;
-        
+    <div class="flex items-center gap-3">
+      <span class="text-gray-400">Schéma</span>
+      <button class="bg-slate-900 border border-slate-700 rounded-md px-3 py-2">
+        4-4-2
       </button>
     </div>
 
-    <div class="mb-8">
-      <label for="nom" class="mb-2 block text-sm font-semibold text-slate-400">
-        Nom complet
-      </label>
+  </header>
 
-      <input id="nom" type="text" placeholder="Ex. Ayoub Mansouri"
-        class="w-full rounded-2xl border-2 border-blue-500 bg-slate-900 px-4 py-3 outline-none placeholder:text-slate-500">
-        <p id="valide"></p>
+  <!-- div containir -->
+  <div class="flex min-h-[calc(100vh-74px)]">
 
-    </div>
- 
-      <legend>Poste</legend>
+    <!-- ASIDE -->
+    <aside class="w-80 shrink-0 bg-slate-800 p-4 text-white border-r border-slate-700">
 
-      <div class="grid grid-cols-2 gap-2">
-        <label class="flex cursor-pointer items-center gap-2 rounded-xl border border-slate-700 bg-slate-900
-         p-3 hover:border-amber-500">
-          <input type="radio" name="poste" value="Gardien">
-          <span class="text-amber-500">●</span> Gardien
-        </label>
 
-        <label class="flex cursor-pointer items-center gap-2 rounded-xl border border-slate-700 bg-slate-900 p-3 hover:border-blue-500">
-          <input type="radio" name="poste" value="Défenseur">
-          <span class="text-blue-500">●</span> Défenseur
-        </label>
+      <button id="ouvrir" class="rounded-lg bg-green-600 px-5 py-3 font-semibold text-white hover:bg-green-700 w-full">
+        Ajouter un joueur
+      </button>
 
-        <label class="flex cursor-pointer items-center gap-2 rounded-xl border border-slate-700 bg-slate-900 p-3 hover:border-green-500">
-          <input type="radio" name="poste" value="Milieu" >
-          <span class="text-green-500">●</span> Milieu
-        </label>
+      <!-- Modale -->
+      <div id="modale" class="fixed inset-0  hidden items-center justify-center bg-black/60 p-4">
 
-        <label class="flex cursor-pointer items-center gap-2 rounded-xl border border-slate-700 bg-slate-900 p-3 hover:border-red-500">
-          <input type="radio" name="poste" value="Attaquant" >
-          <span class="text-red-500">●</span> Attaquant
-        </label>
+        <div class="w-full max-w-xl rounded-2xl border border-slate-700 bg-slate-800 p-7 text-white shadow-2xl">
+
+          <div class="mb-8 flex items-center justify-between">
+            <h2 class="text-xl font-bold ">Ajouter un joueur</h2>
+
+            <button id="fermer" class="text-2xl leading-none text-slate-400 hover:text-white">
+              &times;
+
+            </button>
+          </div>
+          <form id="formulaire">
+
+          <div class="mb-8">
+            <label for="nom" class="mb-2 block text-sm font-semibold text-slate-400">
+              Nom complet
+            </label>
+
+            <input id="nom" type="text" placeholder="Ex. Ayoub Mansouri"
+              class="w-full rounded-2xl border-2 border-blue-500 bg-slate-900 px-4 py-3 outline-none placeholder:text-slate-500">
+            <p id="valide" class="message"></p>
+
+          </div>
+
+          <fieldset class="mb-6">
+            <legend>Poste</legend>
+
+            <div id="check" class="grid grid-cols-2 gap-2">
+                <label class="flex cursor-pointer items-center gap-2 rounded-xl border border-slate-700 bg-slate-900 p-5 hover:border-amber-500">
+                  <input type="radio" name="poste" value="Gardien">
+                  <span class="text-amber-500">●</span> Gardien
+                </label>
+
+                <label
+                  class="flex cursor-pointer items-center gap-2 rounded-xl border border-slate-700 bg-slate-900 p-5 hover:border-blue-500">
+                  <input type="radio" name="poste" value="Défenseur">
+                  <span class="text-blue-500">●</span> Défenseur
+                </label>
+
+                <label
+                  class="flex cursor-pointer items-center gap-2 rounded-xl border border-slate-700 bg-slate-900 p-5 hover:border-green-500">
+                  <input type="radio" name="poste" value="Milieu">
+                  <span class="text-green-500">●</span> Milieu
+                </label>
+
+                <label
+                  class="flex cursor-pointer items-center gap-2 rounded-xl border border-slate-700 bg-slate-900 p-5 hover:border-red-500">
+                  <input type="radio" name="poste" value="Attaquant">
+                  <span class="text-red-500">●</span> Attaquant
+                </label>
+              </div>
+              
+              <p id="poste-message" class="message mt-2 text-sm"></p>
+      </fieldset>
+            <div class="mb-10">
+              <label for="numero" class="mb-2 block text-sm font-semibold text-slate-400">
+                Numéro (1 à 99)
+              </label>
+
+              <input id="numero" type="number" min="1" max="99" placeholder="Ex. 7"
+                class="w-full rounded-2xl border-2 border-blue-500 bg-slate-900 px-4 py-3 outline-none placeholder:text-slate-500">
+            </div>
+
+            <div class="flex justify-end gap-3">
+              <button id="annuler" class="rounded-xl bg-slate-700 px-5 py-3 font-semibold hover:bg-slate-600">
+                Annuler
+              </button>
+              <button id="ajouter" type="submit" class="rounded-xl bg-green-600 px-5 py-3 font-semibold hover:bg-green-700">
+                Ajouter
+              </button>
+            </div>
+            <div class="flex justify-end">
+              <p id="form-msg" class="mt-4 text-sm"></p>
+            </div>
+            
+
+        </div>
+        </form>
+      </div>
+      <p class="text-sm text-slate-400 mt-4">
+        Cliquez sur un joueur placé pour voir sa case sur le terrain.
+        🖊️ pour modifier, 🗑️ pour supprimer.
+      </p>
+
+      <div class="rounded-xl border-l border-red-500 bg-slate-700 p-3 mt-4">
+        <div class="flex gap-3">
+          <span class="rounded-full border border-red-500 h-9 w-9 flex items-center justify-center">
+            1
+          </span>
+
+          <div class="flex-1">
+            <h3>Bono</h3>
+            <p class="text-orange-400 text-sm">Gardien</p>
+          </div>
+
+          <button type="button" aria-label="Modifier">🖊️</button>
+          <button type="button" aria-label="Supprimer">🗑️</button>
+        </div>
+
+        <select class="mt-3 w-full rounded-md border border-slate-500 bg-slate-700 p-2 text-sm text-white">
+          <option>Sur le banc</option>
+        </select>
       </div>
 
+    </aside>
 
-    <div class="mb-10">
-      <label for="numero" class="mb-2 block text-sm font-semibold text-slate-400">
-        Numéro (1 à 99)
-      </label>
+    <!-- MAIN -->
+    <main class="flex-1  bg-slate-900 p-6">
+      <div class="containir">
+        <div class="case bl dg">DG<p>Libre</p>
+        </div>
+        <div class="case bl dc1">DC<p>Libre</p>
+        </div>
+        <div class="case bl dc2">DC<p>Libre</p>
+        </div>
+        <div class="case bl dd">DD<p>Libre</p>
+        </div>
+        <div class="case green mg">MG<p>Libre</p>
+        </div>
+        <div class="case green mc1">MC<p>Libre</p>
+        </div>
+        <div class="case green mc2">MC<p>Libre</p>
+        </div>
+        <div class="case green md">MD<p>Libre</p>
+        </div>
+        <div class="case red bu1">BU<p>Libre</p>
+        </div>
+        <div class="case red bu2 ">BU<p>Libre</p>
+        </div>
+        <div class="cas yell gb"><span>1</span>
+          <p>GB BONO</p>
+        </div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
+        <div class="case"></div>
 
-      <input id="numero" type="number" min="1" max="99"
-        placeholder="Ex. 7"
-        class="w-full rounded-2xl border-2 border-blue-500 bg-slate-900 px-4 py-3 outline-none placeholder:text-slate-500">
-    </div>
-
-    <div class="flex justify-end gap-3">
-      <button id="annuler"
-        class="rounded-xl bg-slate-700 px-5 py-3 font-semibold hover:bg-slate-600">
-        Annuler
-      </button>
-
-      <button id="ajouter"
-        class="rounded-xl bg-green-600 px-5 py-3 font-semibold hover:bg-green-700">
-        Ajouter
-      </button>
-    </div>
+      </div>
+  </div>
+  </main>
 
   </div>
-</div>
-            <p class="text-sm text-slate-400 mt-4">
-                Cliquez sur un joueur placé pour voir sa case sur le terrain.
-                🖊️ pour modifier, 🗑️ pour supprimer.
-            </p>
-
-            <div class="rounded-xl border-l border-red-500 bg-slate-700 p-3 mt-4">
-                <div class="flex gap-3">
-                    <span class="rounded-full border border-red-500 h-9 w-9 flex items-center justify-center">
-                        1
-                    </span>
-
-                    <div class="flex-1">
-                        <h3>Bono</h3>
-                        <p class="text-orange-400 text-sm">Gardien</p>
-                    </div>
-
-                    <button type="button" aria-label="Modifier">🖊️</button>
-                    <button type="button" aria-label="Supprimer">🗑️</button>
-                </div>
-
-                <select class="mt-3 w-full rounded-md border border-slate-500 bg-slate-700 p-2 text-sm text-white">
-                    <option>Sur le banc</option>
-                </select>
-            </div>
-
-        </aside>
-
-        <!-- MAIN -->
-        <main class="flex-1  bg-slate-900 p-6">
-            <div class="containir">
-               <div class="case bl dg">DG<p>Libre</p></div>
-               <div class="case bl dc1">DC<p>Libre</p></div>
-               <div class="case bl dc2">DC<p>Libre</p></div>
-               <div class="case bl dd">DD<p>Libre</p></div>
-               <div class="case green mg">MG<p>Libre</p></div>
-               <div class="case green mc1">MC<p>Libre</p></div>
-               <div class="case green mc2">MC<p>Libre</p></div>
-               <div class="case green md">MD<p>Libre</p></div>
-               <div class="case red bu1">BU<p>Libre</p></div>
-               <div class="case red bu2 ">BU<p>Libre</p></div>
-               <div class="cas yell gb"><span>1</span><p>GB BONO</p></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-               <div class="case"></div>
-
-               </div>
-            </div>
-        </main>
-
-    </div>
 
 </body>
+
 </html>
