@@ -79,6 +79,24 @@ posteContainer.addEventListener("change", function (event) {
   }
 });
 
+// 5.numéro obligatoire de 1 à 99 et unique :
+function valideNumber(){
+ const valeur = numeroInput.value.trim();
+  const numero = Number(valeur);
+  if(valeur === "" ||numero<1 || numero>3){
+     messageNumero.textContent =
+      "Le numéro entre 1 et 99.";
+    messageNumero.className = "message mt-2 text-sm text-red-400";
+    return false;
+  }
+
+  
+
+   messageNumero.textContent = "";
+  return true;
+
+}
+
 // 6. Valide :
 form.addEventListener("submit", function (event) {
   event.preventDefault();
@@ -87,8 +105,9 @@ form.addEventListener("submit", function (event) {
 
   const nomValide = validateNom();
   const posteValide = validatePoste();
+  const numeroValide =  valideNumber()
 
-  if (!nomValide || !posteValide) {
+  if (!nomValide || !posteValide || !numeroValide) {
     return;
   }
 
