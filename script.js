@@ -83,21 +83,33 @@ posteContainer.addEventListener("change", function (event) {
 function valideNumber(){
  const valeur = numeroInput.value.trim();
   const numero = Number(valeur);
-  if(valeur === "" ||numero<1 || numero>3){
+  if(valeur === "" ||numero<1 || numero>99){
      messageNumero.textContent =
       "Le numéro entre 1 et 99.";
     messageNumero.className = "message mt-2 text-sm text-red-400";
     return false;
   }
 
-  
+
 
    messageNumero.textContent = "";
   return true;
 
 }
 
-// 6. Valide :
+const listeJoueurs = document.querySelector("#liste-joueurs");
+// 6. Ajouter et afficher un joueur :
+function addPlayer(player) {
+  const option = document.createElement("option");
+
+  option.value = player.numero;
+  option.textContent =
+    `${player.nom} - ${player.numero} - ${player.poste}`;
+
+  listeJoueurs.append(option);
+}
+
+// 7. Validation du formulaire + ajout du joueur :
 form.addEventListener("submit", function (event) {
   event.preventDefault();
 
@@ -105,13 +117,30 @@ form.addEventListener("submit", function (event) {
 
   const nomValide = validateNom();
   const posteValide = validatePoste();
-  const numeroValide =  valideNumber()
+  const numeroValide = valideNumber();
 
   if (!nomValide || !posteValide || !numeroValide) {
     return;
   }
 
-  msgForm.textContent = "Le formulaire est valide !";
-  msgForm.className = "mt-4 text-sm text-green-400";
-});
+  const posteChoisi = posteContainer.querySelector(
+    'input[type="radio"]:checked'
+  );
 
+  const nouveauJoueur = {
+    nom: nomInput.value.trim(),
+    poste: posteChoisi.value,
+    numero: Number(numeroInput.value)
+  };
+
+  addPlayer(nouveauJoueur);
+
+  msgForm.textContent = "Joueur ajouté avec succès !";
+  msgForm.className = "mt-4 text-sm text-green-400";
+
+
+  form.reset();
+  messageNom.textContent = "";
+  messagePoste.textContent = "";
+  messageNumero.textContent = "";
+});
