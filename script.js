@@ -1,4 +1,3 @@
-
 // 1. Sélection des éléments
 const modale = document.querySelector("#modale");
 const ouvrir = document.querySelector("#ouvrir");
@@ -15,6 +14,9 @@ const messagePoste = document.querySelector("#poste-message");
 const messageNumero = document.querySelector("#numero-message");
 const msgForm = document.querySelector("#form-msg");
 
+const joueursContainer = document.querySelector("#joueurs-container");
+const listeJoueurs = document.querySelector("#liste-joueurs");
+let joueurs = [];
 
 // 2. Ouvrir et fermer la modale
 ouvrir.addEventListener("click", function () {
@@ -29,7 +31,6 @@ function fermerModale() {
 
 fermer.addEventListener("click", fermerModale);
 annuler.addEventListener("click", fermerModale);
-
 
 // 3. Validation du nom
 const regexNom = /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]{3,30}$/;
@@ -90,30 +91,60 @@ function valideNumber(){
     return false;
   }
 
-
-
    messageNumero.textContent = "";
   return true;
 
 }
 
-const listeJoueurs = document.querySelector("#liste-joueurs");
-// 6. Ajouter et afficher un joueur :
-function addPlayer(player) {
-  const option = document.createElement("option");
 
-  option.value = player.numero;
-  option.textContent =
-    `${player.nom} - ${player.numero} - ${player.poste}`;
+// 6. affichage et ajout des players:
 
-  listeJoueurs.append(option);
+function afficherJoueur(joueur) {
+  const carte = document.createElement("div");
+  carte.className =
+    "rounded-xl border-l border-red-500 bg-slate-700 p-3 mt-4";
+
+  const contenu = document.createElement("div");
+  contenu.className = "flex gap-3 items-center";
+
+  const numero = document.createElement("span");
+  numero.className =
+    "rounded-full border border-red-500 h-9 w-9 flex items-center justify-center";
+  numero.textContent = joueur.numero;
+
+  const informations = document.createElement("div");
+  informations.className = "flex-1";
+
+  const nom = document.createElement("h3");
+  nom.textContent = joueur.nom;
+
+  const poste = document.createElement("p");
+  poste.className = "text-orange-400 text-sm";
+  poste.textContent = joueur.poste;
+
+  informations.append(nom, poste);
+
+  const btnModifier = document.createElement("button");
+  btnModifier.type = "button";
+  btnModifier.textContent = "🖊️";
+  btnModifier.setAttribute("aria-label", "Modifier");
+
+  const btnSupprimer = document.createElement("button");
+  btnSupprimer.type = "button";
+  btnSupprimer.textContent = "🗑️";
+  btnSupprimer.setAttribute("aria-label", "Supprimer");
+
+  contenu.append(numero, informations, btnModifier, btnSupprimer);
+  carte.append(contenu);
+  joueursContainer.append(carte);
 }
 
-// 7. Validation du formulaire + ajout du joueur :
+
+numeroInput.addEventListener("input", valideNumber);
+
+
 form.addEventListener("submit", function (event) {
   event.preventDefault();
-
-  msgForm.textContent = "";
 
   const nomValide = validateNom();
   const posteValide = validatePoste();
@@ -123,24 +154,51 @@ form.addEventListener("submit", function (event) {
     return;
   }
 
-  const posteChoisi = posteContainer.querySelector(
+  const posteSelectionne = posteContainer.querySelector(
     'input[type="radio"]:checked'
   );
 
   const nouveauJoueur = {
     nom: nomInput.value.trim(),
-    poste: posteChoisi.value,
-    numero: Number(numeroInput.value)
+    numero: Number(numeroInput.value),
+    poste: posteSelectionne.value
   };
 
-  addPlayer(nouveauJoueur);
+  joueurs.push(nouveauJoueur);
+
+  afficherJoueur(nouveauJoueur);
 
   msgForm.textContent = "Joueur ajouté avec succès !";
   msgForm.className = "mt-4 text-sm text-green-400";
 
-
   form.reset();
+
   messageNom.textContent = "";
   messagePoste.textContent = "";
   messageNumero.textContent = "";
+  msgForm.textContent= "";
+
+  fermerModale();
 });
+
+
+
+// const posteChoisi = posteContainer.querySelector(
+//   'input[type="radio"]:checked'
+// );
+// const nouveauJoueur = {
+//   nom: nomInput.value.trim(),
+//   poste: posteChoisi.value,
+//   numero: Number(numeroInput.value)
+// };
+// joueurs.push(nouveauJoueur);
+
+// afficherJoueur(nouveauJoueur);
+// addPlayer(nouveauJoueur);
+
+
+
+
+
+
+
