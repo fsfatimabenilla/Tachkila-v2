@@ -99,10 +99,14 @@ function valideNumber(){
 
 // 6. affichage et ajout des players:
 
+
 function afficherJoueur(joueur) {
   const carte = document.createElement("div");
   carte.className =
     "rounded-xl border-l border-red-500 bg-slate-700 p-3 mt-4";
+
+  // Ajouter le numéro à la carte
+  carte.dataset.numero = joueur.numero;
 
   const contenu = document.createElement("div");
   contenu.className = "flex gap-3 items-center";
@@ -132,12 +136,14 @@ function afficherJoueur(joueur) {
   const btnSupprimer = document.createElement("button");
   btnSupprimer.type = "button";
   btnSupprimer.textContent = "🗑️";
+  btnSupprimer.className = "supprimer";
   btnSupprimer.setAttribute("aria-label", "Supprimer");
 
   contenu.append(numero, informations, btnModifier, btnSupprimer);
   carte.append(contenu);
   joueursContainer.append(carte);
 }
+
 
 
 numeroInput.addEventListener("input", valideNumber);
@@ -181,24 +187,32 @@ form.addEventListener("submit", function (event) {
   fermerModale();
 });
 
-
-
-// const posteChoisi = posteContainer.querySelector(
-//   'input[type="radio"]:checked'
-// );
-// const nouveauJoueur = {
-//   nom: nomInput.value.trim(),
-//   poste: posteChoisi.value,
-//   numero: Number(numeroInput.value)
-// };
-// joueurs.push(nouveauJoueur);
-
-// afficherJoueur(nouveauJoueur);
-// addPlayer(nouveauJoueur);
+// Suppression :
 
 
 
 
+joueursContainer.addEventListener("click", function (event) {
+  const btn = event.target.closest(".supprimer");
 
+  if (!btn || !joueursContainer.contains(btn)) return;
 
+  const carte = btn.closest("[data-numero]");
 
+  if (!carte) return;
+
+  const numero = Number(carte.dataset.numero);
+
+  const index = joueurs.findIndex(function (joueur) {
+    return joueur.numero === numero;
+  });
+
+  if (index === -1) return;
+
+  const confirmation = confirm("Voulez-vous supprimer ce joueur ?");
+
+  if (!confirmation) return;
+
+  joueurs.splice(index, 1);
+  carte.remove();
+});
