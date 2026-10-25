@@ -17,6 +17,7 @@ const msgForm = document.querySelector("#form-msg");
 const joueursContainer = document.querySelector("#joueurs-container");
 const listeJoueurs = document.querySelector("#liste-joueurs");
 let joueurs = [];
+let joueurAModifier = null;
 
 // 2. Ouvrir et fermer la modale
 ouvrir.addEventListener("click", function () {
@@ -128,10 +129,10 @@ function afficherJoueur(joueur) {
 
   informations.append(nom, poste);
 
-  const btnModifier = document.createElement("button");
-  btnModifier.type = "button";
-  btnModifier.textContent = "🖊️";
-  btnModifier.setAttribute("aria-label", "Modifier");
+const btnModifier = document.createElement("button");
+btnModifier.type = "button";
+btnModifier.textContent = "✏️ Modifier";
+btnModifier.className = "modifier";
 
   const btnSupprimer = document.createElement("button");
   btnSupprimer.type = "button";
@@ -170,11 +171,28 @@ form.addEventListener("submit", function (event) {
     poste: posteSelectionne.value
   };
 
-  joueurs.push(nouveauJoueur);
+  if (joueurAModifier) {
+    joueurAModifier.nom = nouveauJoueur.nom;
+    joueurAModifier.numero = nouveauJoueur.numero;
+    joueurAModifier.poste = nouveauJoueur.poste;
 
-  afficherJoueur(nouveauJoueur);
+    joueursContainer.innerHTML = "";
 
-  msgForm.textContent = "Joueur ajouté avec succès !";
+    joueurs.forEach(function (joueur) {
+      afficherJoueur(joueur);
+    });
+
+    joueurAModifier = null;
+
+    msgForm.textContent = "Joueur modifié avec succès !";
+
+  } else {
+    joueurs.push(nouveauJoueur);
+    afficherJoueur(nouveauJoueur);
+
+    msgForm.textContent = "Joueur ajouté avec succès !";
+  }
+
   msgForm.className = "mt-4 text-sm text-green-400";
 
   form.reset();
@@ -182,7 +200,6 @@ form.addEventListener("submit", function (event) {
   messageNom.textContent = "";
   messagePoste.textContent = "";
   messageNumero.textContent = "";
-  msgForm.textContent= "";
 
   fermerModale();
 });
@@ -215,4 +232,36 @@ joueursContainer.addEventListener("click", function (event) {
 
   joueurs.splice(index, 1);
   carte.remove();
+});
+
+//  modification :
+joueursContainer.addEventListener("click", function (event) {
+  const btn = event.target.closest(".modifier");
+
+  if (!btn) return;
+
+  const carte = btn.closest("[data-numero]");
+  const numero = Number(carte.dataset.numero);
+
+  const joueur = joueurs.find(function (j) {
+    return j.numero === numero;
+  });
+
+  if (!joueur) return;
+
+  joueurAModifier = joueur;
+
+  nomInput.value = joueur.nom;
+  numeroInput.value = joueur.numero;
+
+  const posteInput = document.querySelector(
+    `input[name="poste"][value="${joueur.poste}"]`
+  );
+
+  if (posteInput) {
+    posteInput.checked = true;
+  }
+
+  modale.classList.remove("hidden");
+  modale.classList.add("flex");
 });
