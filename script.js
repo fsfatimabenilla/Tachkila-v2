@@ -92,10 +92,24 @@ function valideNumber(){
     return false;
   }
 
+  
+
+    // Vérifier si le numéro est déjà utilisé
+  const numeroExiste = joueurs.some(function (joueur) {
+    return joueur.numero === numero;
+  });
+
+  if (numeroExiste) {
+    messageNumero.textContent = "Ce numéro est déjà utilisé.";
+    messageNumero.className = "message mt-2 text-sm text-red-400";
+    return false;
+  }
    messageNumero.textContent = "";
   return true;
 
 }
+
+  
 
 
 // 6. affichage et ajout des players:
