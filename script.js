@@ -19,6 +19,11 @@ const listeJoueurs = document.querySelector("#liste-joueurs");
 let joueurs = [];
 let joueurAModifier = null;
 
+const compteur = document.querySelector("#compteur");
+function CompteurPlayer() {
+  compteur.textContent = joueurs.length;
+}
+
 // 2. Ouvrir et fermer la modale
 ouvrir.addEventListener("click", function () {
   modale.classList.remove("hidden");
@@ -233,8 +238,8 @@ form.addEventListener("submit", function (event) {
 
   } else {
     joueurs.push(nouveauJoueur);
-    afficherJoueur(nouveauJoueur);
-
+afficherJoueur(nouveauJoueur);
+CompteurPlayer();
     msgForm.textContent = "Joueur ajouté avec succès !";
   }
 
@@ -307,6 +312,7 @@ joueursContainer.addEventListener("click", function (event) {
 
   modale.classList.remove("hidden");
   modale.classList.add("flex");
+  CompteurPlayer();
 });
 
 
