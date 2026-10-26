@@ -21,7 +21,7 @@ let joueurAModifier = null;
 
 const compteur = document.querySelector("#compteur");
 function CompteurPlayer() {
-  compteur.textContent = joueurs.length;
+  compteur.textContent = joueurs.length +" -joueurs";
 }
 
 // 2. Ouvrir et fermer la modale
@@ -87,30 +87,36 @@ posteContainer.addEventListener("change", function (event) {
 });
 
 // 5.numéro obligatoire de 1 à 99 et unique :
-function valideNumber(){
- const valeur = numeroInput.value.trim();
+
+function valideNumber() {
+  const valeur = numeroInput.value.trim();
   const numero = Number(valeur);
-  if(valeur === "" ||numero<1 || numero>99){
-     messageNumero.textContent =
-      "Le numéro entre 1 et 99.";
-    messageNumero.className = "message mt-2 text-sm text-red-400";
+
+  if (valeur === "" || numero < 1 || numero > 99) {
+    messageNumero.textContent = "Le numéro entre 1 et 99.";
+    messageNumero.className =
+      "message mt-2 text-sm text-red-400";
     return false;
   }
-
-    // Vérifier si le numéro est déjà utilisé
+  // Vérifier si le numéro est déjà utilisé
   const numeroExiste = joueurs.some(function (joueur) {
-    return joueur.numero === numero;
+    return (
+      joueur.numero === numero &&
+      joueur !== joueurAModifier
+    );
   });
 
   if (numeroExiste) {
     messageNumero.textContent = "Ce numéro est déjà utilisé.";
-    messageNumero.className = "message mt-2 text-sm text-red-400";
+    messageNumero.className =
+      "message mt-2 text-sm text-red-400";
     return false;
   }
-   messageNumero.textContent = "";
-  return true;
 
+  messageNumero.textContent = "";
+  return true;
 }
+
 
 // 6. affichage et ajout des players:
 
@@ -280,9 +286,11 @@ joueursContainer.addEventListener("click", function (event) {
 
   joueurs.splice(index, 1);
   carte.remove();
+  CompteurPlayer();
 });
 
 //8.  modification :
+
 joueursContainer.addEventListener("click", function (event) {
   const btn = event.target.closest(".modifier");
 
@@ -312,7 +320,7 @@ joueursContainer.addEventListener("click", function (event) {
 
   modale.classList.remove("hidden");
   modale.classList.add("flex");
-  CompteurPlayer();
+  
 });
 
 
