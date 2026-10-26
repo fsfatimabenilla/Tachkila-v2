@@ -92,8 +92,6 @@ function valideNumber(){
     return false;
   }
 
-  
-
     // Vérifier si le numéro est déjà utilisé
   const numeroExiste = joueurs.some(function (joueur) {
     return joueur.numero === numero;
@@ -108,9 +106,6 @@ function valideNumber(){
   return true;
 
 }
-
-  
-
 
 // 6. affichage et ajout des players:
 
@@ -142,6 +137,32 @@ function afficherJoueur(joueur) {
   poste.textContent = joueur.poste;
 
   informations.append(nom, poste);
+// select des position :
+  const selectPosition = document.createElement("select");
+  selectPosition.className = "mt-3 w-full rounded-md border border-slate-500 bg-slate-700 p-2 text-sm text-white";
+    const options = [
+     {value:"banc" , nom:"Sur le banc"},
+     {value:"gb" , nom: "GB - Gardien"},
+     {value:"dg", nom:"DG - Défenseur gauche"},
+     {value:"dc1" ,nom:"DC - Défenseur central 1" },
+     {value:"dc2" ,nom:"DC - Défenseur central 2"},
+     {value:"dd" , nom:"DD - Défenseur droit"},
+     {value:"mg" , nom: "MG - Milieu gauche"},
+     {value:"mc1" , nom:"MC - Milieu central 1"},
+     {value:"mc2" , nom:"MC - Milieu central 2"},
+     {value:"md" , nom:"MD - Milieu droit"},
+     {value:"bu1" ,nom:"BU - Buteur 1"},
+     {value:"bu2" , nom:"BU - Buteur 2"} 
+  ];
+
+  options.forEach(function(option_joueur) {
+    const option = document.createElement("option");
+    option.value = option_joueur.value;
+    option.textContent = option_joueur.nom;
+    selectPosition.append(option);
+  });
+  
+
 
 const btnModifier = document.createElement("button");
 btnModifier.type = "button";
@@ -153,16 +174,15 @@ btnModifier.className = "modifier";
   btnSupprimer.textContent = "🗑️";
   btnSupprimer.className = "supprimer";
   btnSupprimer.setAttribute("aria-label", "Supprimer");
+  
 
   contenu.append(numero, informations, btnModifier, btnSupprimer);
-  carte.append(contenu);
+  carte.append(contenu,selectPosition);
   joueursContainer.append(carte);
 }
 
 
-
 numeroInput.addEventListener("input", valideNumber);
-
 
 form.addEventListener("submit", function (event) {
   event.preventDefault();
@@ -182,7 +202,8 @@ form.addEventListener("submit", function (event) {
   const nouveauJoueur = {
     nom: nomInput.value.trim(),
     numero: Number(numeroInput.value),
-    poste: posteSelectionne.value
+    poste: posteSelectionne.value,
+    position : "banc"
   };
 
   if (joueurAModifier) {
@@ -214,14 +235,12 @@ form.addEventListener("submit", function (event) {
   messageNom.textContent = "";
   messagePoste.textContent = "";
   messageNumero.textContent = "";
+  msgForm.textContent ="";
 
   fermerModale();
 });
 
-// Suppression :
-
-
-
+//7. Suppression :
 
 joueursContainer.addEventListener("click", function (event) {
   const btn = event.target.closest(".supprimer");
@@ -248,7 +267,7 @@ joueursContainer.addEventListener("click", function (event) {
   carte.remove();
 });
 
-//  modification :
+//8.  modification :
 joueursContainer.addEventListener("click", function (event) {
   const btn = event.target.closest(".modifier");
 
@@ -279,3 +298,127 @@ joueursContainer.addEventListener("click", function (event) {
   modale.classList.remove("hidden");
   modale.classList.add("flex");
 });
+
+
+// 9.assigner un joueur à une position avec un select sur sa carte :
+const message = document.querySelector("#message");
+
+function messageshow(texte, type = "erreur") {
+  message.textContent = texte;
+
+  message.className = type === "erreur"
+    ? "text-red-500"
+    : "text-green-500";
+}
+
+const position_player = {
+  gb: "Gardien",
+  dg: "Défenseur",
+  dc1: "Défenseur",
+  dc2: "Défenseur",
+  dd: "Défenseur",
+  mg: "Milieu",
+  mc1: "Milieu",
+  mc2: "Milieu",
+  md: "Milieu",
+  bu1: "Attaquant",
+  bu2: "Attaquant"
+};
+
+joueursContainer.addEventListener("change", function(event) {
+  if (!event.target.matches("select")) return;
+
+  const select = event.target;
+  const carte = select.closest("[data-numero]");
+
+  if (!carte) return;
+
+  const numero = Number(carte.dataset.numero);
+
+  let player = null;
+
+  for (let joueur of joueurs) {
+    if (joueur.numero === numero) {
+      player = joueur;
+      break;
+    }
+  }
+
+  if (player === null) return;
+
+  const nvPosition = select.value;
+
+ 
+  if (nvPosition === "banc") {
+    libre(player);
+    player.position = "banc";
+    return;
+  }
+
+  if (position_player[nvPosition] !== player.poste) {
+
+    messageshow("Ce joueur ne correspond pas à cette position !");
+
+    select.value = player.position || "banc";
+    return;
+  }
+
+  libre(player);
+  
+
+const caseTerrain = document.querySelector(
+  ".containir ." + nvPosition
+);
+
+if (!caseTerrain) {
+  messageshow("Position introuvable !");
+  select.value = player.position || "banc";
+  return;
+}
+
+if (
+  caseTerrain.dataset.numero &&
+  caseTerrain.dataset.numero !== String(player.numero)
+) {
+  messageshow("Cette position est occupée !");
+  select.value = player.position || "banc";
+  return;
+}
+
+libre(player);
+
+caseTerrain.dataset.numero = player.numero;
+
+const statut = caseTerrain.querySelector("p");
+
+if (statut) {
+  statut.textContent = player.nom;
+}
+
+player.position = nvPosition;
+message.textContent = "";
+
+});
+
+
+function libre(player) {
+  if (!player.position || player.position === "banc") return;
+
+  const ancienneCase = document.querySelector(
+    ".containir ." + player.position
+  );
+
+
+  if (
+    ancienneCase &&
+    ancienneCase.dataset.numero === String(player.numero)
+  ) {
+    delete ancienneCase.dataset.numero;
+
+    const statut = ancienneCase.querySelector("p");
+
+    if (statut) {
+      statut.textContent = "Libre";
+    }
+  }
+}
