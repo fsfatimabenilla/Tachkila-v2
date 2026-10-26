@@ -109,11 +109,21 @@ function valideNumber(){
 
 // 6. affichage et ajout des players:
 
+ function carteColoree(poste){
+  if(poste=="Gardien"){
+    return "border-l-4 border-amber-400 bg-amber-400/10";
+  }else if (poste == "Défenseur") {
+    return "border-l-4 border-blue-400 bg-blue-400/10";
+  } else if(poste == "Milieu"){
+    return "border-l-4 border-green-400 bg-green-400/10";
+  }else {
+    return "border-l-4 border-red-400 bg-red-400/10";
+  }
+ }
 
 function afficherJoueur(joueur) {
   const carte = document.createElement("div");
-  carte.className =
-    "rounded-xl border-l border-red-500 bg-slate-700 p-3 mt-4";
+carte.className ="rounded-xl p-3 mt-4 " + carteColoree(joueur.poste);
 
   // Ajouter le numéro à la carte
   carte.dataset.numero = joueur.numero;
