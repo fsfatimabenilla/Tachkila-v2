@@ -204,13 +204,14 @@ const optionsPositions = [
 function afficherJoueur(joueur) {
   const carte = document.createElement("div");
 
-  carte.className =
-    "rounded-xl p-3 mt-4 " + carteColoree(joueur.poste);
+ carte.className =
+  "rounded-xl p-3 min-w-0 w-full " +"flex flex-col gap-3 " +"break-words " +carteColoree(joueur.poste);
 
   carte.dataset.numero = joueur.numero;
 
   const contenu = document.createElement("div");
-  contenu.className = "flex gap-3 items-center";
+contenu.className =
+  "flex items-center gap-3 min-w-0";
 
   const numero = document.createElement("span");
 
@@ -379,7 +380,7 @@ form.addEventListener("submit", function (event) {
 
     messageshow("Joueur ajouté avec succès !", "succes");
   }
-
+  refreshLocalStorage();
   form.reset();
 
   messageNom.textContent = "";
@@ -431,6 +432,7 @@ joueursContainer.addEventListener("click", function (event) {
   carte.remove();
 
   CompteurPlayer();
+   refreshLocalStorage();
 
   messageshow("Joueur supprimé avec succès !", "succes");
 });
@@ -528,6 +530,7 @@ joueursContainer.addEventListener("change", function (event) {
     libre(joueur);
 
     joueur.position = "banc";
+    refreshLocalStorage();
 
     messageshow(
       joueur.nom + " est retourné sur le banc.",
@@ -578,6 +581,7 @@ joueursContainer.addEventListener("change", function (event) {
   }
 
   joueur.position = nouvellePosition;
+  refreshLocalStorage();
 
   messageshow(
     joueur.nom + " a été assigné à cette position.",
@@ -585,5 +589,43 @@ joueursContainer.addEventListener("change", function (event) {
   );
 });
 
+CompteurPlayer();
+
+
+// 10. localStorage
+
+const key = "tachkila";
+function refresh() {
+  const rs = localStorage.getItem(key);
+  joueurs = rs ? JSON.parse(rs) : [];
+}
+
+refresh();
+function refreshLocalStorage() {
+  localStorage.setItem(key, JSON.stringify(joueurs));
+}
+
+joueursContainer.innerHTML = "";
+
+joueurs.forEach(function (joueur) {
+  afficherJoueur(joueur);
+
+  if (joueur.position && joueur.position !== "banc") {
+    const caseTerrain = document.querySelector(".containir ." + joueur.position);
+
+    if (caseTerrain && !caseTerrain.dataset.numero) {
+      caseTerrain.dataset.numero = String(joueur.numero);
+
+      const statut = caseTerrain.querySelector("p");
+
+      if (statut) {
+        statut.textContent = joueur.nom;
+      }
+    } else {
+      joueur.position = "banc";
+    }
+  }
+});
 
 CompteurPlayer();
+refreshLocalStorage();
