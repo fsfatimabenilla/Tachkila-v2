@@ -96,3 +96,31 @@
     color: #ffffff;
 }
 
+/* responsive : */
+@media (max-width: 768px) {
+    .containir {
+        grid-template-rows: repeat(9, 55px);
+        gap: 5px;
+        padding: 8px;
+        margin: 5px;
+    }
+
+    .case {
+        border-radius: 8px;
+        font-size: 11px;
+    }
+
+    .gb {
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .gb span {
+        width: 28px;
+        height: 28px;
+    }
+
+    .gb p {
+        font-size: 10px;
+    }
+}
