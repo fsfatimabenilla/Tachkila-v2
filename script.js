@@ -204,8 +204,12 @@ const optionsPositions = [
 function afficherJoueur(joueur) {
   const carte = document.createElement("div");
 
- carte.className =
-  "rounded-xl p-3 min-w-0 w-full " +"flex flex-col gap-3 " +"break-words " +carteColoree(joueur.poste);
+
+
+carte.className =
+  "rounded-xl p-3 " +"w-[260px] shrink-0 " +"flex flex-col gap-3 break-words " +
+  carteColoree(joueur.poste);
+
 
   carte.dataset.numero = joueur.numero;
 

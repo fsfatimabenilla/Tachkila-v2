@@ -123,5 +123,15 @@
     .gb p {
         font-size: 10px;
     }
+
+    #joueurs-container{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: 3px;
+        width: 100%;
+        overflow-x: auto;
+
+    }
     
 }
