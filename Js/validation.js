@@ -1,10 +1,19 @@
-// valodation d'ajout un joueur :
+import {
+  nomInput,
+  posteContainer,
+  numeroInput,
+  messageNom,
+  messageNumero,
+  messagePoste,
+  joueurs,
+  joueurAModifier
+} from "./interface.js";
 
-//Validation du nom
+// Validation du nom
 
 const regexNom = /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]{3,30}$/;
 
-export function validateNom(nomInput,messageNom) {
+export function validateNom() {
   const nom = nomInput.value.trim();
 
 
@@ -25,13 +34,9 @@ export function validateNom(nomInput,messageNom) {
   return true;
 }
 
-nomInput.addEventListener("input", validateNom);
+// Validation du poste avec Event Delegation
 
-
-//Validation du poste avec Event Delegation
-
-
-export function validatePoste(posteContainer,messagePoste) {
+export function validatePoste() {
   const posteChoisi = posteContainer.querySelector(
     'input[type="radio"]:checked'
   );
@@ -46,16 +51,9 @@ export function validatePoste(posteContainer,messagePoste) {
   return true;
 }
 
-posteContainer.addEventListener("change", function (event) {
-  if (event.target.matches('input[type="radio"]')) {
-    validatePoste();
-  }
-});
+// Numéro obligatoire de 1 à 99 et unique
 
-//numéro obligatoire de 1 à 99 et unique :
-
-
-export function valideNumber(numeroInput,messageNumero) {
+export function valideNumber() {
   const valeur = numeroInput.value.trim();
   const numero = Number(valeur);
 
@@ -88,4 +86,18 @@ export function valideNumber(numeroInput,messageNumero) {
   return true;
 }
 
-numeroInput.addEventListener("input", valideNumber);
+export function initValidation() {
+  if (!nomInput || !posteContainer || !numeroInput) {
+    return;
+  }
+
+  nomInput.addEventListener("input", validateNom);
+
+  posteContainer.addEventListener("change", function (event) {
+    if (event.target.matches('input[type="radio"]')) {
+      validatePoste();
+    }
+  });
+
+  numeroInput.addEventListener("input", valideNumber);
+}

@@ -1,82 +1,167 @@
-
-import { position_player } from "./donnees-initiales.js";
-import { sauvegarderJoueurs } from "./stockage.js";
 import {
-  afficherJoueur,
+  modale,
+  form,
+  nomInput,
+  posteContainer,
+  numeroInput,
+  messageNom,
+  messagePoste,
+  messageNumero,
+  joueursContainer,
+  joueurs,
+  joueurAModifier,
+  setJoueurAModifier,
   CompteurPlayer,
-  fermerModale,
-  libre,
-  messageshow
+  messageshow,
+  fermerModale
 } from "./interface.js";
 import {
-  validateNom,
-  validatePoste,
-  valideNumber
+  validateNom,validatePoste,valideNumber
 } from "./validation.js";
+import { refreshLocalStorage } from "./stockage.js";
 
-export function gererPlayer(elements, etat) {
-  const {
-    modale, ouvrir, fermer, annuler, form, nomInput, posteContainer,
-    numeroInput, messageNom, messagePoste, messageNumero, message,
-    joueursContainer, compteur
-  } = elements;
-
-  function enregistrer() {
-    sauvegarderJoueurs(etat.joueurs);
+function carteColoree(poste) {
+  if (poste === "Gardien") {
+    return "border-l-4 border-amber-400 bg-amber-400/10";
   }
 
-  function rendreCartes() {
-    joueursContainer.innerHTML = "";
-    etat.joueurs.forEach(function (joueur) {
-      afficherJoueur(joueur, joueursContainer);
+  if (poste === "Défenseur") {
+    return "border-l-4 border-blue-400 bg-blue-400/10";
+  }
+
+  if (poste === "Milieu") {
+    return "border-l-4 border-green-400 bg-green-400/10";
+  }
+
+  return "border-l-4 border-red-400 bg-red-400/10";
+}
+
+const optionsPositions = [
+  { value: "banc", nom: "Sur le banc" },
+  { value: "gb", nom: "GB - Gardien" },
+  { value: "dg", nom: "DG - Défenseur gauche" },
+  { value: "dc1", nom: "DC - Défenseur central 1" },
+  { value: "dc2", nom: "DC - Défenseur central 2" },
+  { value: "dd", nom: "DD - Défenseur droit" },
+  { value: "mg", nom: "MG - Milieu gauche" },
+  { value: "mc1", nom: "MC - Milieu central 1" },
+  { value: "mc2", nom: "MC - Milieu central 2" },
+  { value: "md", nom: "MD - Milieu droit" },
+  { value: "bu1", nom: "BU - Buteur 1" },
+  { value: "bu2", nom: "BU - Buteur 2" }
+];
+
+
+export function afficherJoueur(joueur, page = "effectif") {
+  if (!joueursContainer) {
+    return;
+  }
+
+  const carte = document.createElement("div");
+
+  carte.className =
+    "rounded-xl p-3 w-[300px]  flex flex-col gap-3  " +
+    carteColoree(joueur.poste);
+
+  carte.dataset.numero = joueur.numero;
+
+  const contenu = document.createElement("div");
+  contenu.className = "flex items-center gap-3 min-w-0";
+
+  const numero = document.createElement("span");
+  numero.className =
+    "rounded-full border border-red-500 h-9 w-9 flex items-center justify-center";
+  numero.textContent = joueur.numero;
+
+  const informations = document.createElement("div");
+  informations.className = "flex-1 min-w-0";
+
+  const nom = document.createElement("h3");
+  nom.textContent = joueur.nom;
+
+  const poste = document.createElement("p");
+  poste.className = "text-orange-400 text-sm";
+  poste.textContent = joueur.poste;
+
+  informations.append(nom, poste);
+  contenu.append(numero, informations);
+
+  if (page === "composition") {
+    const selectPosition = document.createElement("select");
+    selectPosition.className =
+      "mt-3 w-full rounded-md border border-slate-500 bg-slate-700 p-2 text-sm text-white";
+
+    optionsPositions.forEach(function (optionJoueur) {
+      const option = document.createElement("option");
+      option.value = optionJoueur.value;
+      option.textContent = optionJoueur.nom;
+      selectPosition.append(option);
     });
+
+    selectPosition.value = joueur.position || "banc";
+    carte.append(contenu, selectPosition);
+  } else {
+    const btnModifier = document.createElement("button");
+    btnModifier.type = "button";
+    btnModifier.textContent = "✏️ Modifier";
+    btnModifier.className = "modifier";
+
+    const btnSupprimer = document.createElement("button");
+    btnSupprimer.type = "button";
+    btnSupprimer.textContent = "🗑️";
+    btnSupprimer.className = "supprimer";
+    btnSupprimer.setAttribute("aria-label", "Supprimer");
+
+    contenu.append(btnModifier, btnSupprimer);
+    carte.append(contenu);
   }
 
-  function compter() {
-    CompteurPlayer(etat.joueurs, compteur);
+  joueursContainer.append(carte);
+}
+
+// Libérer une position occupée par un joueur
+
+export function libre(joueur) {
+  if (!joueur.position || joueur.position === "banc") {
+    return;
   }
 
-  function ouvrirPourAjout() {
-    etat.joueurAModifier = null;
-    form.reset();
-    messageNom.textContent = "";
-    messagePoste.textContent = "";
-    messageNumero.textContent = "";
-    modale.classList.remove("hidden");
-    modale.classList.add("flex");
-  }
+  const ancienneCase = document.querySelector(
+    ".containir ." + joueur.position
+  );
 
-  ouvrir.addEventListener("click", ouvrirPourAjout);
+  if (
+    ancienneCase &&
+    ancienneCase.dataset.numero === String(joueur.numero)
+  ) {
+    delete ancienneCase.dataset.numero;
 
-  function fermerLaModale() {
-    fermerModale(modale);
-  }
+    const statut = ancienneCase.querySelector("p");
 
-  fermer.addEventListener("click", fermerLaModale);
-  annuler.addEventListener("click", fermerLaModale);
-
-  nomInput.addEventListener("input", function () {
-    validateNom(nomInput, messageNom);
-  });
-
-  posteContainer.addEventListener("change", function (event) {
-    if (event.target.matches('input[type="radio"]')) {
-      validatePoste(posteContainer, messagePoste);
+    if (statut) {
+      statut.textContent = "Libre";
     }
-  });
+  }
+}
 
-  numeroInput.addEventListener("input", function () {
-    valideNumber(numeroInput, messageNumero, etat.joueurs, etat.joueurAModifier);
-  });
+export function initJoueurs() {
+  if (
+    !form ||
+    !joueursContainer ||
+    !nomInput ||
+    !posteContainer ||
+    !numeroInput ||
+    !modale
+  ) {
+    return;
+  }
 
   form.addEventListener("submit", function (event) {
     event.preventDefault();
 
-    const nomValide = validateNom(nomInput, messageNom);
-    const posteValide = validatePoste(posteContainer, messagePoste);
-    const numeroValide = valideNumber(
-      numeroInput, messageNumero, etat.joueurs, etat.joueurAModifier
-    );
+    const nomValide = validateNom();
+    const posteValide = validatePoste();
+    const numeroValide = valideNumber();
 
     if (!nomValide || !posteValide || !numeroValide) {
       return;
@@ -93,16 +178,17 @@ export function gererPlayer(elements, etat) {
       position: "banc"
     };
 
-    if (etat.joueurAModifier) {
-      const joueur = etat.joueurAModifier;
-      const ancienNumero = joueur.numero;
-      const anciennePosition = joueur.position;
-      const ancienPoste = joueur.poste;
+    if (joueurAModifier) {
+      const ancienNumero = joueurAModifier.numero;
+      const anciennePosition = joueurAModifier.position;
+      const ancienPoste = joueurAModifier.poste;
 
+      // Si le poste change, le joueur retourne au banc
       if (ancienPoste !== nouveauJoueur.poste) {
-        libre(joueur);
-        joueur.position = "banc";
+        libre(joueurAModifier);
+        joueurAModifier.position = "banc";
       } else if (anciennePosition !== "banc") {
+        // Le poste ne change pas : conserver la position
         const caseTerrain = document.querySelector(
           ".containir ." + anciennePosition
         );
@@ -112,35 +198,46 @@ export function gererPlayer(elements, etat) {
           caseTerrain.dataset.numero === String(ancienNumero)
         ) {
           caseTerrain.dataset.numero = String(nouveauJoueur.numero);
+
           const statut = caseTerrain.querySelector("p");
+
           if (statut) {
             statut.textContent = nouveauJoueur.nom;
           }
         }
       }
 
-      joueur.nom = nouveauJoueur.nom;
-      joueur.numero = nouveauJoueur.numero;
-      joueur.poste = nouveauJoueur.poste;
-      etat.joueurAModifier = null;
+      joueurAModifier.nom = nouveauJoueur.nom;
+      joueurAModifier.numero = nouveauJoueur.numero;
+      joueurAModifier.poste = nouveauJoueur.poste;
 
-      rendreCartes();
-      compter();
-      messageshow(message, "Joueur modifié avec succès !", "succes");
+      joueursContainer.innerHTML = "";
+
+      joueurs.forEach(function (joueur) {
+        afficherJoueur(joueur, "effectif");
+      });
+
+      setJoueurAModifier(null);
+      CompteurPlayer();
+      messageshow("Joueur modifié avec succès !", "succes");
     } else {
-      etat.joueurs.push(nouveauJoueur);
-      afficherJoueur(nouveauJoueur, joueursContainer);
-      compter();
-      messageshow(message, "Joueur ajouté avec succès !", "succes");
+      joueurs.push(nouveauJoueur);
+      afficherJoueur(nouveauJoueur, "effectif");
+      CompteurPlayer();
+      messageshow("Joueur ajouté avec succès !", "succes");
     }
 
-    enregistrer();
+    refreshLocalStorage();
     form.reset();
-    messageNom.textContent = "";
-    messagePoste.textContent = "";
-    messageNumero.textContent = "";
-    fermerModale(modale);
+
+    if (messageNom) messageNom.textContent = "";
+    if (messagePoste) messagePoste.textContent = "";
+    if (messageNumero) messageNumero.textContent = "";
+
+    fermerModale();
   });
+
+  // Suppression
 
   joueursContainer.addEventListener("click", function (event) {
     const btn = event.target.closest(".supprimer");
@@ -150,12 +247,14 @@ export function gererPlayer(elements, etat) {
     }
 
     const carte = btn.closest("[data-numero]");
+
     if (!carte) {
       return;
     }
 
     const numero = Number(carte.dataset.numero);
-    const index = etat.joueurs.findIndex(function (joueur) {
+
+    const index = joueurs.findIndex(function (joueur) {
       return joueur.numero === numero;
     });
 
@@ -163,20 +262,26 @@ export function gererPlayer(elements, etat) {
       return;
     }
 
-    const confirmation = confirm("Voulez-vous supprimer ce joueur ?");
+    const confirmation = confirm(
+      "Voulez-vous supprimer ce joueur ?"
+    );
+
     if (!confirmation) {
       return;
     }
 
-    const joueur = etat.joueurs[index];
+    const joueur = joueurs[index];
+
     libre(joueur);
-    etat.joueurs.splice(index, 1);
+    joueurs.splice(index, 1);
     carte.remove();
 
-    compter();
-    enregistrer();
-    messageshow(message, "Joueur supprimé avec succès !", "succes");
+    CompteurPlayer();
+    refreshLocalStorage();
+    messageshow("Joueur supprimé avec succès !", "succes");
   });
+
+  // Modification
 
   joueursContainer.addEventListener("click", function (event) {
     const btn = event.target.closest(".modifier");
@@ -186,12 +291,14 @@ export function gererPlayer(elements, etat) {
     }
 
     const carte = btn.closest("[data-numero]");
+
     if (!carte) {
       return;
     }
 
     const numero = Number(carte.dataset.numero);
-    const joueur = etat.joueurs.find(function (j) {
+
+    const joueur = joueurs.find(function (j) {
       return j.numero === numero;
     });
 
@@ -199,7 +306,8 @@ export function gererPlayer(elements, etat) {
       return;
     }
 
-    etat.joueurAModifier = joueur;
+    setJoueurAModifier(joueur);
+
     nomInput.value = joueur.nom;
     numeroInput.value = joueur.numero;
 
@@ -211,84 +319,11 @@ export function gererPlayer(elements, etat) {
       posteInput.checked = true;
     }
 
-    messageNom.textContent = "";
-    messagePoste.textContent = "";
-    messageNumero.textContent = "";
+    if (messageNom) messageNom.textContent = "";
+    if (messagePoste) messagePoste.textContent = "";
+    if (messageNumero) messageNumero.textContent = "";
+
     modale.classList.remove("hidden");
     modale.classList.add("flex");
   });
-
-  joueursContainer.addEventListener("change", function (event) {
-    if (!event.target.matches("select")) {
-      return;
-    }
-
-    const select = event.target;
-    const carte = select.closest("[data-numero]");
-    if (!carte) {
-      return;
-    }
-
-    const numero = Number(carte.dataset.numero);
-    const joueur = etat.joueurs.find(function (j) {
-      return j.numero === numero;
-    });
-
-    if (!joueur) {
-      return;
-    }
-
-    const nouvellePosition = select.value;
-
-    if (nouvellePosition === "banc") {
-      libre(joueur);
-      joueur.position = "banc";
-      enregistrer();
-      messageshow(message, joueur.nom + " est retourné sur le banc.", "succes");
-      return;
-    }
-
-    if (position_player[nouvellePosition] !== joueur.poste) {
-      messageshow(message, "Ce joueur ne correspond pas à cette position !");
-      select.value = joueur.position || "banc";
-      return;
-    }
-
-    const caseTerrain = document.querySelector(
-      ".containir ." + nouvellePosition
-    );
-
-    if (!caseTerrain) {
-      messageshow(message, "Position introuvable !");
-      select.value = joueur.position || "banc";
-      return;
-    }
-
-    if (
-      caseTerrain.dataset.numero &&
-      caseTerrain.dataset.numero !== String(joueur.numero)
-    ) {
-      messageshow(message, "Cette position est déjà occupée !");
-      select.value = joueur.position || "banc";
-      return;
-    }
-
-    libre(joueur);
-    caseTerrain.dataset.numero = String(joueur.numero);
-
-    const statut = caseTerrain.querySelector("p");
-    if (statut) {
-      statut.textContent = joueur.nom;
-    }
-
-    joueur.position = nouvellePosition;
-    enregistrer();
-    messageshow(
-      message,
-      joueur.nom + " a été assigné à cette position.",
-      "succes"
-    );
-  });
-
-  compter();
 }

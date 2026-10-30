@@ -6,7 +6,7 @@
   <title>TACHKILA</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="style.css">
-  <script src="Js/script.js" defer></script>
+  <script type="module" src="Js/page-effectif.js" defer></script>
 </head>
 
 <body class="min-h-screen bg-slate-900">
@@ -74,24 +74,96 @@
        text-white hover:bg-green-700 ">
         + Ajouter un joueur
       </button>
-</section>
-      <!-- Search & filtre -->
-    <section class="flex justify-between  gap-3 bg-slate-800 border-slate-600 p-4 m-3 rounded-2xl">
+      <div id="modale" class="fixed inset-0  hidden items-center justify-center bg-black/60 p-4">
 
-    <input  type="search" class="w-full md:flex-1 border border-slate-500 bg-slate-900 text-white placeholder-slate-400 rounded-lg  outline-none "
-     " placeholder="Rechercher un joueur par nom ...">
- <nav>
-    <ul  class="flex flex-wrap items-center justify-center gap-2 text-white bg-slate-900 rounded-lg p-2">
-      <li><button type="button" class="bg-green-500 rounded-lg p-4">Tous</button></li>
-      <li><button type="button" class=" p-4 rounded-lg hover:bg-slate-700">GB</button></li>
-      <li><button type="button" class=" p-4 rounded-lg hover:bg-slate-700">DEF</button></li>
-      <li><button type="button" class=" p-4 rounded-lg hover:bg-slate-700">MILL</button></li>
-      <li><button type="button" class=" p-4 rounded-lg hover:bg-slate-700">ATT</button></li>
-    </ul>
- </nav>
- </section>
+        <div class="w-full max-w-xl rounded-2xl border border-slate-700 bg-slate-800 p-7 text-white shadow-2xl">
+
+          <div class="mb-8 flex items-center justify-between">
+            <h2 class="text-xl font-bold ">Ajouter un joueur</h2>
+
+            <button id="fermer" class="text-2xl leading-none text-slate-400 hover:text-white">
+              &times;
+
+            </button>
+          </div>
+          <form id="formulaire">
+
+          <div class="mb-8">
+            <label for="nom" class="mb-2 block text-sm font-semibold text-slate-400">
+              Nom complet
+            </label>
+
+            <input id="nom" type="text" placeholder="Ex. Ayoub Mansouri"
+              class="w-full rounded-2xl border-2 border-blue-500 bg-slate-900 px-4 py-3 outline-none placeholder:text-slate-500">
+            <p id="valide" class="message"></p>
+
+          </div>
+
+          <fieldset class="mb-6">
+            <legend>Poste</legend>
+
+            <div id="check" class="grid grid-cols-2 gap-2">
+                <label class="flex cursor-pointer items-center gap-2 rounded-xl border border-slate-700 bg-slate-900 p-5 hover:border-amber-500">
+                  <input class="accent-amber-500" type="radio" name="poste" value="Gardien">
+                  <span class="text-amber-500">●</span> Gardien
+                </label>
+
+                <label
+                  class ="flex cursor-pointer items-center gap-2 rounded-xl border border-slate-700 bg-slate-900 p-5 hover:border-blue-500">
+                  <input class="accent-blue-500" type="radio" name="poste" value="Défenseur">
+                  <span class="text-blue-500">●</span> Défenseur
+                </label>
+
+                <label
+                  class="flex cursor-pointer items-center gap-2 rounded-xl border border-slate-700 bg-slate-900 p-5 hover:border-green-500">
+                  <input class="accent-green-500" type="radio" name="poste" value="Milieu">
+                  <span class="text-green-500">●</span> Milieu
+                </label>
+
+                <label
+                  class="flex cursor-pointer items-center gap-2 rounded-xl border border-slate-700 bg-slate-900 p-5 hover:border-red-500">
+                  <input class="accent-red-500" type="radio" name="poste" value="Attaquant">
+                  <span class="text-red-500">●</span> Attaquant
+                </label>
+              </div>
+              
+              <p id="poste-message" class="message mt-2 text-sm"></p>
+      </fieldset>
+            <div class="mb-10">
+              <label for="numero" class="mb-2 block text-sm font-semibold text-slate-400">
+                Numéro (1 à 99)
+              </label>
+
+              <input id="numero" type="number" min="1" max="99" placeholder="Ex. 7"
+                class="w-full rounded-2xl border-2 border-blue-500 bg-slate-900 px-4 py-3 outline-none placeholder:text-slate-500">
+                <p id="numero-message" class="message mt-2 text-sm"></p>
+            </div>            
+
+            <div class="flex justify-end gap-3">
+              <button id="annuler" class="rounded-xl bg-slate-700 px-5 py-3 font-semibold hover:bg-slate-600">
+                Annuler
+              </button>
+              <button id="ajouter" type="submit" class="rounded-xl bg-green-600 px-5 py-3 font-semibold hover:bg-green-700">
+                Ajouter
+              </button>
+            </div>
+            <div class="flex justify-end">
+              <p id="form-msg" class="mt-4 text-sm"></p>
+            </div>
+            
+
+        </div>
+        </form>
+      </div>
+</section>
+      <section>
+              <p id="message"></p>
+<div id="joueurs-container" class="flex flex-col gap-3">
+      </section>
+
   </main>
 
 
 </body>
-</html> 
+</html>
+ 
