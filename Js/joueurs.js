@@ -16,7 +16,8 @@ import {
   setJoueurAModifier,
   CompteurPlayer,
   messageshow,
-  fermerModale
+  fermerModale,
+  rechercheInput
 } from "./interface.js";
 import {
   validateNom,validatePoste,valideNumber,validateAge
@@ -425,5 +426,44 @@ export function initJoueurs() {
       joueurSelectionne.nom + " est maintenant le capitaine.",
       "succes"
     );
+  });
+}
+
+
+//  rechercher :
+
+
+
+export function rechercherJoueurs() {
+  if (!joueursContainer || !rechercheInput) return;
+
+  const recherche = rechercheInput.value.trim().toLowerCase();
+
+  const resultat = joueurs.filter((joueur) =>
+    joueur.nom.toLowerCase().includes(recherche)
+  );
+
+  joueursContainer.replaceChildren();
+
+  if (resultat.length === 0) {
+    const vide = document.createElement("p");
+    vide.className = "text-center text-slate-400 py-8";
+    vide.textContent = "Aucun joueur trouvé.";
+    joueursContainer.append(vide);
+    return;
+  }
+
+  resultat.forEach((joueur) => {
+    afficherJoueur(joueur, "effectif");
+  });
+}
+
+export function initRecherche() {
+  console.log("Recherche initialisée !");
+  console.log("Input :", rechercheInput);
+
+  rechercheInput?.addEventListener("input", () => {
+    console.log("Tu as écrit :", rechercheInput.value);
+    rechercherJoueurs();
   });
 }

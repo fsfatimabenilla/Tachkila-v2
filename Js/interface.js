@@ -21,6 +21,9 @@ export const message = document.querySelector("#message");
 export const joueursContainer = document.querySelector("#joueurs-container");
 export const compteur = document.querySelector("#compteur");
 
+export const rechercheInput  = document.querySelector("#recherche");
+export const filtre = document.querySelector("#filtre");
+
 export let joueurs = [];
 export let joueurAModifier = null;
 let timerMessage;
