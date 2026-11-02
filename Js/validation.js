@@ -2,9 +2,11 @@ import {
   nomInput,
   posteContainer,
   numeroInput,
+  ageInput,
   messageNom,
   messageNumero,
   messagePoste,
+  messageAge,
   joueurs,
   joueurAModifier
 } from "./interface.js";
@@ -86,8 +88,28 @@ export function valideNumber() {
   return true;
 }
 
+// validation age :
+export function validateAge() {
+  const valeur = ageInput.value.trim();
+  const age = Number(valeur);
+
+  if (
+    valeur === "" ||
+    !Number.isInteger(age) ||age < 18 || age > 39 ) {
+    messageAge.textContent = "L'âge doit être entre 18 et 39.";
+    messageAge.className = "mt-2 text-sm text-red-400";
+    return false;
+  }
+
+  messageAge.textContent = "";
+  return true;
+}
+
+
+
+
 export function initValidation() {
-  if (!nomInput || !posteContainer || !numeroInput) {
+  if (!nomInput || !posteContainer || !numeroInput || !ageInput) {
     return;
   }
 
@@ -100,4 +122,5 @@ export function initValidation() {
   });
 
   numeroInput.addEventListener("input", valideNumber);
+  ageInput.addEventListener('input',validateAge)
 }

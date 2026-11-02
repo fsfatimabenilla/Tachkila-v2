@@ -9,10 +9,13 @@ export const form = document.querySelector("#formulaire");
 export const nomInput = document.querySelector("#nom");
 export const posteContainer = document.querySelector("#check");
 export const numeroInput = document.querySelector("#numero");
+export const ageInput = document.querySelector('#age');
+export const statutInput = document.querySelector('#statut');
 
 export const messageNom = document.querySelector("#valide");
 export const messagePoste = document.querySelector("#poste-message");
 export const messageNumero = document.querySelector("#numero-message");
+export const messageAge = document.querySelector('#age-message');
 export const message = document.querySelector("#message");
 
 export const joueursContainer = document.querySelector("#joueurs-container");
@@ -79,6 +82,7 @@ export function initModale() {
     if (messageNom) messageNom.textContent = "";
     if (messagePoste) messagePoste.textContent = "";
     if (messageNumero) messageNumero.textContent = "";
+     if (messageAge) messageAge.textContent = "";
 
     modale.classList.remove("hidden");
     modale.classList.add("flex");

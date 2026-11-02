@@ -7,6 +7,9 @@ import {
   messageNom,
   messagePoste,
   messageNumero,
+  ageInput, 
+  statutInput,
+  messageAge,
   joueursContainer,
   joueurs,
   joueurAModifier,
@@ -16,7 +19,7 @@ import {
   fermerModale
 } from "./interface.js";
 import {
-  validateNom,validatePoste,valideNumber
+  validateNom,validatePoste,valideNumber,validateAge
 } from "./validation.js";
 import { refreshLocalStorage } from "./stockage.js";
 
@@ -86,22 +89,22 @@ export function afficherJoueur(joueur, page = "effectif") {
   informations.append(nom, poste);
   contenu.append(numero, informations);
 
-  if (page === "composition") {
-    const selectPosition = document.createElement("select");
-    selectPosition.className =
-      "mt-3 w-full rounded-md border border-slate-500 bg-slate-700 p-2 text-sm text-white";
+ const age = document.createElement('p');
+    age.className='text-sm text-slate-400';
+    age.textContent= `Age : ${joueur.age} ans`;
+    const statut = document.createElement('span');
+      statut.className = joueur.statut === 'Blessé'
+    ? 'rounded-md bg-red-500/20 text-red-300 px-2 py-1 text-xs font-semibold'
+    : 'rounded-md bg-green-500/20 text-green-300 px-2 py-1 text-xs font-semibold';
+  statut.textContent = joueur.statut || 'En forme';
 
-    optionsPositions.forEach(function (optionJoueur) {
-      const option = document.createElement("option");
-      option.value = optionJoueur.value;
-      option.textContent = optionJoueur.nom;
-      selectPosition.append(option);
-    });
+  if(page === "effectif"){
+    const bas = document.createElement('div');
+    bas.className = 'flex items-center justify-between gap-2 mt-1';
+    const capitaine = document.createElement('div');
+  capitaine.className ='flex items-center gap-2';
 
-    selectPosition.value = joueur.position || "banc";
-    carte.append(contenu, selectPosition);
-  } else {
-    const btnModifier = document.createElement("button");
+  const btnModifier = document.createElement("button");
     btnModifier.type = "button";
     btnModifier.textContent = "✏️ Modifier";
     btnModifier.className = "modifier";
@@ -112,9 +115,47 @@ export function afficherJoueur(joueur, page = "effectif") {
     btnSupprimer.className = "supprimer";
     btnSupprimer.setAttribute("aria-label", "Supprimer");
 
-    contenu.append(btnModifier, btnSupprimer);
-    carte.append(contenu);
+    const bntCapitaine = document.createElement('button');
+  bntCapitaine.type ='button';
+  bntCapitaine.className = joueur.capitaine
+   ? 'capitaine rounded-lg bg-purple-600 px-3 py-1 text-white font-bold'
+    : 'capitaine rounded-lg border border-slate-600 px-3 py-1 text-slate-300 font-bold';
+  bntCapitaine.textContent = joueur.capitaine ? 'C ' : 'c';
+  bntCapitaine.setAttribute('aria-label', 'désigner le capitaine')
+  
+  
+   if(joueur.capitaine){
+    carte.classList.remove('border-l-amber-400','border-l-blue-500', 'border-l-green-500', 'border-l-red-500');
+    carte.classList.add('border-l-purple-500','ring-1','ring-purple-500');
+    bntCapitaine.classList.add('bg-purple-500','text-white');
   }
+  capitaine.append(btnModifier, btnSupprimer,bntCapitaine);
+    bas.append(statut,capitaine);
+     carte.append(contenu , age,bas);
+  }
+
+ else if (page === "composition") {
+    const selectPosition = document.createElement("select");
+    selectPosition.className =
+      "mt-3 w-full rounded-md border border-slate-500 bg-slate-700 p-2 text-sm text-white";
+
+    optionsPositions.forEach(function (optionJoueur) {
+      const option = document.createElement("option");
+      option.value = optionJoueur.value;
+      option.textContent = optionJoueur.nom;
+      selectPosition.append(option);
+    });
+    
+  
+
+    selectPosition.value = joueur.position || "banc";
+        if (joueur.statut === "Blessé") {
+      selectPosition.disabled = true;
+      selectPosition.value = "banc";
+    }
+     carte.append(contenu, age, statut, selectPosition);
+  } 
+ 
 
   joueursContainer.append(carte);
 }
@@ -144,6 +185,13 @@ export function libre(joueur) {
   }
 }
 
+function viderMessages() {
+  if (messageNom) messageNom.textContent = "";
+  if (messagePoste) messagePoste.textContent = "";
+  if (messageNumero) messageNumero.textContent = "";
+  if (messageAge) messageAge.textContent = "";
+}
+
 export function initJoueurs() {
   if (
     !form ||
@@ -151,6 +199,8 @@ export function initJoueurs() {
     !nomInput ||
     !posteContainer ||
     !numeroInput ||
+    !ageInput ||
+    !statutInput ||
     !modale
   ) {
     return;
@@ -162,8 +212,10 @@ export function initJoueurs() {
     const nomValide = validateNom();
     const posteValide = validatePoste();
     const numeroValide = valideNumber();
+    const ageValide =  validateAge();
+    
 
-    if (!nomValide || !posteValide || !numeroValide) {
+    if (!nomValide || !posteValide || !numeroValide || !ageValide) {
       return;
     }
 
@@ -171,20 +223,29 @@ export function initJoueurs() {
       'input[type="radio"]:checked'
     );
 
+    if(!posteSelectionne){
+      return;
+    }
+
     const nouveauJoueur = {
       nom: nomInput.value.trim(),
       numero: Number(numeroInput.value),
       poste: posteSelectionne.value,
-      position: "banc"
+      age : Number(ageInput.value),
+      statut : statutInput.value || "En forme"
+      
     };
 
     if (joueurAModifier) {
+      const joueur = joueurAModifier;
       const ancienNumero = joueurAModifier.numero;
       const anciennePosition = joueurAModifier.position;
       const ancienPoste = joueurAModifier.poste;
+      
 
       // Si le poste change, le joueur retourne au banc
-      if (ancienPoste !== nouveauJoueur.poste) {
+      if (ancienPoste !== nouveauJoueur.poste || nouveauJoueur.statut=== "Blessé")
+         {
         libre(joueurAModifier);
         joueurAModifier.position = "banc";
       } else if (anciennePosition !== "banc") {
@@ -199,10 +260,10 @@ export function initJoueurs() {
         ) {
           caseTerrain.dataset.numero = String(nouveauJoueur.numero);
 
-          const statut = caseTerrain.querySelector("p");
+          const terrainnv = caseTerrain.querySelector("p");
 
-          if (statut) {
-            statut.textContent = nouveauJoueur.nom;
+          if (terrainnv) {
+            terrainnv.textContent = nouveauJoueur.nom;
           }
         }
       }
@@ -210,6 +271,8 @@ export function initJoueurs() {
       joueurAModifier.nom = nouveauJoueur.nom;
       joueurAModifier.numero = nouveauJoueur.numero;
       joueurAModifier.poste = nouveauJoueur.poste;
+      joueurAModifier.age = nouveauJoueur.age;
+      joueurAModifier.statut = nouveauJoueur.statut;
 
       joueursContainer.innerHTML = "";
 
@@ -221,6 +284,9 @@ export function initJoueurs() {
       CompteurPlayer();
       messageshow("Joueur modifié avec succès !", "succes");
     } else {
+      nouveauJoueur.position ="banc";
+      nouveauJoueur.capitaine=false;
+
       joueurs.push(nouveauJoueur);
       afficherJoueur(nouveauJoueur, "effectif");
       CompteurPlayer();
@@ -229,10 +295,8 @@ export function initJoueurs() {
 
     refreshLocalStorage();
     form.reset();
-
-    if (messageNom) messageNom.textContent = "";
-    if (messagePoste) messagePoste.textContent = "";
-    if (messageNumero) messageNumero.textContent = "";
+    viderMessages();
+    
 
     fermerModale();
   });
@@ -310,6 +374,8 @@ export function initJoueurs() {
 
     nomInput.value = joueur.nom;
     numeroInput.value = joueur.numero;
+    ageInput.value = joueur.age;
+    statutInput.value = joueur.statut || "En forme;"
 
     const posteInput = posteContainer.querySelector(
       `input[name="poste"][value="${joueur.poste}"]`
@@ -318,12 +384,46 @@ export function initJoueurs() {
     if (posteInput) {
       posteInput.checked = true;
     }
-
-    if (messageNom) messageNom.textContent = "";
-    if (messagePoste) messagePoste.textContent = "";
-    if (messageNumero) messageNumero.textContent = "";
+    viderMessages();
 
     modale.classList.remove("hidden");
     modale.classList.add("flex");
+  });
+
+  // désigner le capitaine :
+  joueursContainer.addEventListener("click", function (event) {
+    const btn = event.target.closest(".capitaine");
+     if (!btn || !joueursContainer.contains(btn)) {
+      return;
+    }
+     const carte = btn.closest("[data-numero]");
+
+    if (!carte) return;
+
+    const numero = Number(carte.dataset.numero);
+
+    const joueurSelectionne = joueurs.find(function (j) {
+      return j.numero === numero;
+    });
+
+
+    if(!joueurSelectionne) return;
+    
+    joueurs.forEach(function (joueur) {
+      joueur.capitaine = joueur === joueurSelectionne;
+    });
+
+    joueursContainer.replaceChildren();
+
+    joueurs.forEach(function (joueur) {
+      afficherJoueur(joueur, "effectif");
+    });
+
+    refreshLocalStorage();
+
+    messageshow(
+      joueurSelectionne.nom + " est maintenant le capitaine.",
+      "succes"
+    );
   });
 }
