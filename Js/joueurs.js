@@ -377,7 +377,7 @@ export function initJoueurs() {
     nomInput.value = joueur.nom;
     numeroInput.value = joueur.numero;
     ageInput.value = joueur.age;
-    statutInput.value = joueur.statut || "En forme;"
+    statutInput.value = joueur.statut || "En forme";
 
     const posteInput = posteContainer.querySelector(
       `input[name="poste"][value="${joueur.poste}"]`

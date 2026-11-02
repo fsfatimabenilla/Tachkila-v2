@@ -161,20 +161,12 @@ body{
     order: 4;
   }
 
-  #menu-toggle:checked ~ #nav-menu {
+#nav-menu {
     display: block;
   }
 
-  #menu {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 8px;
-    margin-top: 12px;
-    padding: 12px;
-    border-radius: 12px;
-  }
 
-  #menu li a {
+  ul li a {
     display: block;
     padding: 12px;
   }
