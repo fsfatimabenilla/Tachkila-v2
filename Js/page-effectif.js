@@ -6,7 +6,6 @@ import { restaurerJoueurs } from "./stockage.js";
 initModale();
 initValidation();
 initJoueurs();
-initJoueurs();
 initRecherche();
 filterJoueurs();
 

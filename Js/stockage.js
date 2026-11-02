@@ -3,7 +3,7 @@ import {
 } from "./interface.js"
 
 
-// 10. localStorage
+// localStorage
 
 const key = "tachkila";
 export function refresh() {
@@ -15,34 +15,41 @@ export function refreshLocalStorage() {
   localStorage.setItem(key, JSON.stringify(joueurs));
 }
 
+
 export function restaurerJoueurs(afficherJoueur) {
   refresh();
-if(!joueursContainer){
-    return;
-}
+
+  if (!joueursContainer) return;
 
   joueursContainer.innerHTML = "";
-  
+
   joueurs.forEach(function (joueur) {
+
     afficherJoueur(joueur);
-  
-    if (joueur.position && joueur.position !== "banc") {
-      const caseTerrain = document.querySelector(".containir ." + joueur.position);
-  
-      if (caseTerrain && !caseTerrain.dataset.numero) {
-        caseTerrain.dataset.numero = String(joueur.numero);
-  
-        const statut = caseTerrain.querySelector("p");
-  
-        if (statut) {
-          statut.textContent = joueur.nom;
-        }
-      } else {
-        joueur.position = "banc";
-      }
+
+    if (!joueur.position || joueur.position === "banc") {
+      return;
+    }
+
+    const caseTerrain = document.querySelector(
+      ".containir ." + joueur.position
+    );
+
+    if (!caseTerrain) return;
+
+    if (caseTerrain.dataset.numero) {
+      joueur.position = "banc";
+      return;
+    }
+    caseTerrain.dataset.numero = String(joueur.numero);
+
+    const statut = caseTerrain.querySelector("p");
+
+    if (statut) {
+      statut.textContent = joueur.nom;
     }
   });
-  
+
   CompteurPlayer();
   refreshLocalStorage();
 }
