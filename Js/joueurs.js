@@ -17,7 +17,8 @@ import {
   CompteurPlayer,
   messageshow,
   fermerModale,
-  rechercheInput
+  rechercheInput,
+  filtre
 } from "./interface.js";
 import {
   validateNom,validatePoste,valideNumber,validateAge
@@ -275,7 +276,7 @@ export function initJoueurs() {
       joueurAModifier.age = nouveauJoueur.age;
       joueurAModifier.statut = nouveauJoueur.statut;
 
-      joueursContainer.innerHTML = "";
+       joueursContainer.replaceChildren();
 
       joueurs.forEach(function (joueur) {
         afficherJoueur(joueur, "effectif");
@@ -459,11 +460,41 @@ export function rechercherJoueurs() {
 }
 
 export function initRecherche() {
-  console.log("Recherche initialisée !");
-  console.log("Input :", rechercheInput);
+
 
   rechercheInput?.addEventListener("input", () => {
     console.log("Tu as écrit :", rechercheInput.value);
     rechercherJoueurs();
   });
 }
+
+// filtrage selon poste :
+
+
+export function filterJoueurs(){
+
+  filtre.addEventListener("click",(event)=>{
+    const btnFiltre = event.target.closest("button[data-poste]");
+
+    if(!btnFiltre)return;
+    
+    const posteChoisi = btnFiltre.dataset.poste;
+    const filtrage = joueurs.filter((joueur) =>
+      posteChoisi === "Tous" || joueur.poste === posteChoisi );
+
+    joueursContainer.replaceChildren();
+
+    filtrage.forEach((joueur) =>{
+      afficherJoueur(joueur , "effectif" );
+    });
+        
+
+  });
+  
+ } 
+
+
+
+
+
+
