@@ -1,7 +1,9 @@
 import {
-    joueurs,setJoueurs,joueursContainer,CompteurPlayer
-} from "./interface.js"
-
+  joueurs,
+  setJoueurs,
+  joueursContainer,
+  CompteurPlayer,
+} from "./interface.js";
 
 // localStorage
 
@@ -15,7 +17,6 @@ export function refreshLocalStorage() {
   localStorage.setItem(key, JSON.stringify(joueurs));
 }
 
-
 export function restaurerJoueurs(afficherJoueur) {
   refresh();
 
@@ -24,7 +25,6 @@ export function restaurerJoueurs(afficherJoueur) {
   joueursContainer.innerHTML = "";
 
   joueurs.forEach(function (joueur) {
-
     afficherJoueur(joueur);
 
     if (!joueur.position || joueur.position === "banc") {
@@ -32,7 +32,7 @@ export function restaurerJoueurs(afficherJoueur) {
     }
 
     const caseTerrain = document.querySelector(
-      ".containir ." + joueur.position
+      ".containir ." + joueur.position,
     );
 
     if (!caseTerrain) return;

@@ -7,7 +7,7 @@
   <title>TACHKILA</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="style.css">
-  <script src="Js/script.js" defer></script>
+  <script type="module" src="Js/matchs.js" defer></script>
 </head>
 
 <body class="min-h-screen bg-slate-900">
@@ -63,6 +63,87 @@
     </nav>
 
   </div>
+  </header>
+  
+  <main class="pt-40 sm:pt-36 xl:pt-28">
+    <section class="flex justify-between m-4">
+      <div class="flex flex-col">
+        <h2  class="text-white font-bold text-xl">Matchs</h2>
+        <p class="text-slate-400">Calendrier et résultats de la saison 2026/2027</p>
+      </div>
+
+        <button type="button" id="ouvrir" class="rounded-lg bg-green-600 px-5 py-3 font-semibold
+       text-white hover:bg-green-700 ">
+        + Ajouter un match
+      </button>
+      <div id="modale" class="fixed inset-0  hidden items-center justify-center bg-black/60 p-4">
+        <div class="w-full max-w-xl rounded-2xl border border-slate-700 bg-slate-800 p-7 text-white shadow-2xl">
+        <div class="mb-8 flex items-center justify-between">
+          <h2 class="text-xl font-bold ">Ajouter un Match</h2>
+          <button id="fermer" class="text-2xl leading-none text-slate-400 hover:text-white">
+              &times;
+            </button>
+          </div>
+          <form id="formulaire">
+            <div class="mb-8">
+              <label for="nom" class="mb-2 block text-sm font-semibold text-slate-400">
+              Adversaire
+            </label>
+
+            <input id="Adversaire" type="text" placeholder="Ex. Ayoub Mansouri"
+              class="w-full rounded-2xl border-2 border-blue-500 bg-slate-900 px-4 py-3 outline-none placeholder:text-slate-500">
+            <!-- <p id="valide" class="message"></p> -->
+            </div>
+            <div class="grid grid-cols-2 gap-1">
+              <div class="mb-10">
+                <label for="date" class="mb-2 block text-sm font-semibold text-slate-400">
+                  Date
+                </label>
+                <input type="date" id="date"  class="w-full rounded-2xl border-2 border-blue-500 bg-slate-900 px-4 py-3 outline-none placeholder:text-slate-500">
+              </div>
+              <div class="mb-10">
+                <label for="heure"  class="mb-2 block text-sm font-semibold text-slate-400">
+                  Heure
+                </label>
+                <input type="time" id="heure" class="w-full rounded-2xl border-2 border-blue-500 bg-slate-900 px-4 py-3 outline-none placeholder:text-slate-500" >
+              </div>
+            </div>
+            <label for="lieu"  class="mb-2 block text-sm font-semibold text-slate-400">
+              Lieu
+            </label>
+            <input type="text" id="lieu" class="w-full rounded-2xl border-2 border-blue-500 bg-slate-900 px-4 py-3 outline-none placeholder:text-slate-500" >
+
+            <fieldset class="mb-6">
+               <label for="lieu-match"  class="mb-2 block text-sm font-semibold text-slate-400">
+              Lieu du match 
+            </label>
+              <div id="check" class="grid grid-cols-2 gap-2">
+                <label class="flex cursor-pointer items-center gap-2 rounded-xl border border-slate-700 bg-slate-900 p-5 ">
+                  <input type="radio" name="lieu-match" value="Domocile">
+                   Domocile
+                </label>
+                <label class="flex cursor-pointer items-center gap-2 rounded-xl border border-slate-700 bg-slate-900 p-5">       
+                  <input type="radio" name="lieu-match" value="Extérieure">
+                  Extérieure
+                </label>
+              </div>
+            </fieldset>
+            <div class="flex justify-end gap-3 m-4">
+              <button type="button" id="annuler" class="rounded-xl bg-slate-700 px-5 py-3 font-semibold hover:bg-slate-600">
+                Annuler
+              </button>
+              <button id="ajouter" type="submit" class="rounded-xl bg-green-600 px-5 py-3 font-semibold hover:bg-green-700">
+                Ajouter
+              </button>
+            </div>
+            <div class="flex justify-end">
+              <p id="form-msg" class="mt-4 text-sm"></p>
+            </div>
+          </div>
+          </form>
+      </div>
+    </section>
+  </main>
 
 
 </body>

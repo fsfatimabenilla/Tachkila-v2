@@ -7,6 +7,7 @@ initModale();
 initValidation();
 initJoueurs();
 initRecherche();
+
 filterJoueurs();
 initPagination();
 Pagination();
@@ -17,4 +18,4 @@ restaurerJoueurs(function (joueur) {
   afficherJoueur(joueur, "effectif");
 });
 
-rechercherJoueurs();
+rechercherJoueurs(); 

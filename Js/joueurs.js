@@ -441,7 +441,7 @@ let joueurFiltres = [];
 
 export function rechercherJoueurs() {
 
-  if (!joueursContainer || !rechercheInput) return;
+  // if (!joueursContainer || !rechercheInput) return;
 
   const recherche = rechercheInput.value.trim().toLowerCase();
 
