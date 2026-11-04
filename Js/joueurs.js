@@ -141,6 +141,9 @@ export function afficherJoueur(joueur, page = "effectif") {
 
  else if (page === "composition") {
     const selectPosition = document.createElement("select");
+
+
+
     selectPosition.className =
       "mt-3 w-full rounded-md border border-slate-500 bg-slate-700 p-2 text-sm text-white";
 
@@ -418,14 +421,8 @@ export function initJoueurs() {
       joueur.capitaine = joueur === joueurSelectionne;
     });
 
-    joueursContainer.replaceChildren();
-
-    joueurs.forEach(function (joueur) {
-      afficherJoueur(joueur, "effectif");
-    });
-
     refreshLocalStorage();
-
+    Pagination();
     messageshow(
       joueurSelectionne.nom + " est maintenant le capitaine.",
       "succes"
@@ -486,8 +483,8 @@ export function filterJoueurs() {
 export function Pagination() {
 
   const totalPages = Math.ceil(joueurFiltres.length / parPage);
-  if (totalPages > 0 && pageActuelle > totalPages) {
-    pageActuelle = totalPages;
+  if(pageActuelle > totalPages){
+    pageActuelle = Math.max(1,totalPages);
   }
 
   const debut = (pageActuelle - 1) * parPage;
