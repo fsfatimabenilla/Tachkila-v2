@@ -470,6 +470,14 @@ export function filterJoueurs() {
 
     const btnFiltre = event.target.closest("button[data-poste]");
     if (!btnFiltre) return;
+    filtre.querySelectorAll("button[data-poste]").forEach((btn)=>{
+      btn.classList.remove("bg-green-500" , "rounded-xl" , "p-6");
+      btn.classList.add("p-6" ,"rounded-lg" , "hover:bg-slate-700");
+      });
+
+       btnFiltre.classList.add("bg-green-500" , "rounded-xl" , "p-6");
+      btnFiltre.classList.remove("p-6" ,"rounded-lg" ,"hover:bg-slate-700");
+
     posteChoisi = btnFiltre.dataset.poste;
 
     rechercherJoueurs();
