@@ -11,6 +11,8 @@ import {
   joueurAModifier
 } from "./interface.js";
 
+import {messageAdv , adv} from "./donnees-initiales.js"
+
 // Validation du nom
 
 const regexNom = /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]{3,30}$/;
@@ -124,3 +126,27 @@ export function initValidation() {
   numeroInput.addEventListener("input", valideNumber);
   ageInput.addEventListener('input',validateAge)
 }
+
+
+// pages match :
+const regexAdv = /^[A-Za-zÀ-ÿ\s'-]{3,30}$/;
+
+export  function validateAdv(){
+  const Adversaire = adv.value.trim();
+  if(Adversaire === ""){
+    messageAdv.textContent = "L'Adversaire est obligatoire.";
+    messageAdv.className = "mt-2 text-sm text-red-400";
+    return false;
+  }
+  if(!regexAdv.test(Adversaire)){
+    messageAdv.textContent = "L'adversaire doit contenir 3 à 30 caractères valides."
+    messageAdv.className = "mt-2 text-sm text-red-400";
+    return false;
+  }
+    messageAdv.textContent = "";
+  return true;
+}
+export function validateAdvInit(){
+  adv.addEventListener("input",validateAdv);
+}
+

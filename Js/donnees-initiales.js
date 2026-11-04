@@ -4,6 +4,13 @@
  const annulerBtn = document.querySelector("#annuler");
  const formulaire = document.querySelector("#formulaire");
 
+export const adv = document.querySelector("#Adversaire");
+export const date = document.querySelector("date");
+export const heure = document.querySelector("#heure");
+export const lieu = document.querySelector("#lieu");
+
+ export const messageAdv = document.querySelector("#valide");
+
  export function ouvrirModale() {
     modale.classList.remove("hidden");
     modale.classList.add("flex");
