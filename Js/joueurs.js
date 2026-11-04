@@ -18,7 +18,10 @@ import {
   messageshow,
   fermerModale,
   rechercheInput,
-  filtre
+  filtre,
+  btnPr,
+  btnSv,
+  InfoPage
 } from "./interface.js";
 import {
   validateNom,validatePoste,valideNumber,validateAge
@@ -431,70 +434,102 @@ export function initJoueurs() {
 }
 
 
-//  rechercher :
 
+ // Recherche : 
 
+let pageActuelle = 1;
+const parPage = 8;
+let posteChoisi = "Tous";
+let joueurFiltres = [];
 
 export function rechercherJoueurs() {
+
   if (!joueursContainer || !rechercheInput) return;
 
   const recherche = rechercheInput.value.trim().toLowerCase();
 
-  const resultat = joueurs.filter((joueur) =>
-    joueur.nom.toLowerCase().includes(recherche)
+  joueurFiltres = joueurs.filter((joueur) =>
+    joueur.nom.toLowerCase().includes(recherche) &&
+    (posteChoisi === "Tous" || joueur.poste === posteChoisi)
   );
 
-  joueursContainer.replaceChildren();
+  pageActuelle = 1;
 
-  if (resultat.length === 0) {
-    const vide = document.createElement("p");
-    vide.className = "text-center text-slate-400 py-8";
-    vide.textContent = "Aucun joueur trouvé.";
-    joueursContainer.append(vide);
-    return;
-  }
-
-  resultat.forEach((joueur) => {
-    afficherJoueur(joueur, "effectif");
-  });
+  Pagination();
 }
 
 export function initRecherche() {
 
-
-  rechercheInput?.addEventListener("input", () => {
-    console.log("Tu as écrit :", rechercheInput.value);
+  rechercheInput.addEventListener("input", () => {
     rechercherJoueurs();
   });
 }
 
-// filtrage selon poste :
+// Filtrage selon poste :
 
+export function filterJoueurs() {
 
-export function filterJoueurs(){
+  filtre.addEventListener("click", (event) => {
 
-  filtre.addEventListener("click",(event)=>{
     const btnFiltre = event.target.closest("button[data-poste]");
+    if (!btnFiltre) return;
+    posteChoisi = btnFiltre.dataset.poste;
 
-    if(!btnFiltre)return;
-    
-    const posteChoisi = btnFiltre.dataset.poste;
-    const filtrage = joueurs.filter((joueur) =>
-      posteChoisi === "Tous" || joueur.poste === posteChoisi );
-
-    joueursContainer.replaceChildren();
-
-    filtrage.forEach((joueur) =>{
-      afficherJoueur(joueur , "effectif" );
-    });
-        
+    rechercherJoueurs();
 
   });
-  
- } 
+
+}
+
+// Pagination
+
+export function Pagination() {
+
+  const totalPages = Math.ceil(joueurFiltres.length / parPage);
+  if (totalPages > 0 && pageActuelle > totalPages) {
+    pageActuelle = totalPages;
+  }
+
+  const debut = (pageActuelle - 1) * parPage;
+  const joueurAfficher = joueurFiltres.slice( debut,debut + parPage);
+
+  joueursContainer.replaceChildren();
+
+  if (joueurAfficher.length === 0) {
+
+    const vide = document.createElement("p");
+    vide.className = "text-center text-slate-400 py-8";
+    vide.textContent = "Aucun joueur trouvé.";
+    joueursContainer.append(vide);
+  }
+  joueurAfficher.forEach((joueur) => {
+    afficherJoueur(joueur, "effectif");
+  });
+
+  InfoPage.textContent = `Page ${pageActuelle} / ${totalPages}`;
+  btnPr.disabled = pageActuelle <= 1;
+  btnSv.disabled = pageActuelle >= totalPages || totalPages === 0;
+
+}
 
 
+export function initPagination() {
 
+  btnPr.addEventListener("click", () => {
 
+    if (pageActuelle > 1) {
+      pageActuelle--;
+      Pagination();
+    }
 
+  });
 
+  btnSv.addEventListener("click", () => {
+    const totalPages = Math.ceil(joueurFiltres.length / parPage);
+    if (pageActuelle < totalPages) {
+      pageActuelle++;
+      Pagination();
+    }
+  });
+
+}

@@ -24,6 +24,10 @@ export const compteur = document.querySelector("#compteur");
 export const rechercheInput  = document.querySelector("#recherche");
 export const filtre = document.querySelector("#filtre");
 
+export const btnPr = document.querySelector("#precedant");
+export const btnSv = document.querySelector("#suivant");
+export const InfoPage = document.querySelector("#Info-page"); 
+
 export let joueurs = [];
 export let joueurAModifier = null;
 let timerMessage;
