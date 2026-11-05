@@ -65,3 +65,8 @@ export function supprimerMatch(ball) {
         match.splice(index, 1);
     }
 }
+
+export function setMatch(nv) {
+    match = nv;
+}
+

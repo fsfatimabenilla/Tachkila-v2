@@ -10,7 +10,8 @@ import {
     lieuMatch,
     containir,
     fermerModale,
-    ajoutBtn
+    ajoutBtn,
+    match
 } from "./donnees-initiales.js";
 
 import {
@@ -21,6 +22,8 @@ import {
     validateDate,
     validateAdvInit
 } from "./validation.js";
+
+import { refreshLocalStorageMatch , refreshMatch} from "./stockage.js";
 
 gesModal();
 validateAdvInit();
@@ -77,6 +80,7 @@ export function afficherMatch(ball) {
         const confirmation = confirm("Voulez-vous vraiment supprimer ce match ?");
         if(confirmation){
             supprimerMatch(ball);
+            refreshLocalStorageMatch();
             carte.remove();
         }
     });
@@ -113,6 +117,7 @@ export function ajoutMatch(event) {
     };
 
     ajouterMatch(ball);
+    refreshLocalStorageMatch();
     afficherMatch(ball);
     fermerModale();
 }
@@ -120,6 +125,10 @@ export function ajoutMatch(event) {
 export function ajoutMatchInit() {
     ajoutBtn.addEventListener("click", ajoutMatch);
 }
+refreshMatch();
 
+match.forEach(function(ball) {
+    afficherMatch(ball);
+});
 ajoutMatchInit();
 

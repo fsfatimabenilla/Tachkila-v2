@@ -4,6 +4,7 @@ import {
   joueursContainer,
   CompteurPlayer,
 } from "./interface.js";
+import { match , setMatch } from "./donnees-initiales.js";
 
 // localStorage
 
@@ -52,4 +53,17 @@ export function restaurerJoueurs(afficherJoueur) {
 
   CompteurPlayer();
   refreshLocalStorage();
+}
+
+
+
+const keyMatch = "tachkila-matchs";
+
+export function refreshMatch() {
+    const rs = localStorage.getItem(keyMatch);
+    setMatch(rs ? JSON.parse(rs) : []);
+}
+
+export function refreshLocalStorageMatch() {
+    localStorage.setItem(keyMatch, JSON.stringify(match));
 }
