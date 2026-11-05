@@ -77,8 +77,7 @@ export function afficherJoueur(joueur, page = "effectif") {
   contenu.className = "flex items-center gap-3 min-w-0";
 
   const numero = document.createElement("span");
-  numero.className =
-    "rounded-full border border-red-500 h-9 w-9 flex items-center justify-center";
+ 
   numero.textContent = joueur.numero;
 
   const informations = document.createElement("div");

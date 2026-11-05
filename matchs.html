@@ -100,21 +100,24 @@
                   Date
                 </label>
                 <input type="date" id="date"  class="w-full rounded-2xl border-2 border-blue-500 bg-slate-900 px-4 py-3 outline-none placeholder:text-slate-500">
+                <p id="valide-date"></p>
               </div>
               <div class="mb-10">
                 <label for="heure"  class="mb-2 block text-sm font-semibold text-slate-400">
                   Heure
                 </label>
                 <input type="time" id="heure" class="w-full rounded-2xl border-2 border-blue-500 bg-slate-900 px-4 py-3 outline-none placeholder:text-slate-500" >
+                <p id="valide-heure"></p>
               </div>
             </div>
             <label for="lieu"  class="mb-2 block text-sm font-semibold text-slate-400">
               Lieu
             </label>
             <input type="text" id="lieu" class="w-full rounded-2xl border-2 border-blue-500 bg-slate-900 px-4 py-3 outline-none placeholder:text-slate-500" >
+            <p id="valide-lieu"></p>
 
             <fieldset class="mb-6">
-               <label for="lieu-match"  class="mb-2 block text-sm font-semibold text-slate-400">
+               <label for="lieu-match" class="mb-2 block text-sm font-semibold text-slate-400">
               Lieu du match 
             </label>
               <div id="check" class="grid grid-cols-2 gap-2">
@@ -127,6 +130,7 @@
                   Extérieure
                 </label>
               </div>
+               <p id="valide-check"></p>
             </fieldset>
             <div class="flex justify-end gap-3 m-4">
               <button type="button" id="annuler" class="rounded-xl bg-slate-700 px-5 py-3 font-semibold hover:bg-slate-600">
@@ -143,6 +147,21 @@
           </form>
       </div>
     </section>
+    <section class="m-2 flex justify-between gap-3  bg-slate-800 border-slate-600 p-4 rounded-2xl">
+      <nav>
+        <ul id="filtre" class="flex flex-wrap items-center justify-center gap-2 text-white bg-slate-900 rounded-lg p-2">
+        <li><button type="button" data-poste="Tous" class="bg-green-500 rounded-lg p-4"button>Tous</li>
+        <li><button type="button" data-poste="A-venir" class="p-4 rounded-lg hover:bg-slate-700">A venir</button></li>
+        <li><button type="button" data-poste="Jouee" class="p-4 rounded-lg hover:bg-slate-700">Jouée</button></li>
+        </ul>
+      </nav>
+      <input  type="search" id="recherche" class="w-full md:flex-1 border border-slate-500 bg-slate-900 text-white placeholder-slate-400 rounded-lg  outline-none "
+     " placeholder="Rechercher un Adversaire ...">
+    </section>
+    <section class="flex flex-col">
+      <div class="match-containir"></div>
+    </section>
+      
   </main>
 
 

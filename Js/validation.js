@@ -8,10 +8,22 @@ import {
   messagePoste,
   messageAge,
   joueurs,
-  joueurAModifier
+  joueurAModifier,
+  message
 } from "./interface.js";
 
-import {messageAdv , adv} from "./donnees-initiales.js"
+import {messageAdv , 
+  adv ,
+  date,
+  heure,
+  lieu,
+  lieuMatch,
+  messageDate,
+  messageHeure,
+  messageLM,
+  messageLieu
+}
+from "./donnees-initiales.js"
 
 // Validation du nom
 
@@ -134,7 +146,7 @@ const regexAdv = /^[A-Za-zÀ-ÿ\s'-]{3,30}$/;
 export  function validateAdv(){
   const Adversaire = adv.value.trim();
   if(Adversaire === ""){
-    messageAdv.textContent = "L'Adversaire est obligatoire.";
+    messageAdv.textContent = "L'Adversaire est obligatoir!!";
     messageAdv.className = "mt-2 text-sm text-red-400";
     return false;
   }
@@ -150,3 +162,46 @@ export function validateAdvInit(){
   adv.addEventListener("input",validateAdv);
 }
 
+export function validateDate(){
+  if(date.value === ""){
+    messageDate.textContent="la date est obligatoire !!";
+    messageDate.className= "mt-2 text-sm text-red-400";
+    return false;
+
+ }
+  messageDate.textContent = "";
+  return true;
+}
+
+export function validateHeure() {
+  if (heure.value === "") {
+    messageHeure.textContent = "L'heure est obligatoire!!";
+    messageHeure.className= "mt-2 text-sm text-red-400";
+    return false;
+  }
+  messageHeure.textContent = "";
+  return true;
+}
+
+export function validateLieu() {
+  if (lieu.value.trim() === "") {
+    messageLieu.textContent = "Le lieu est obligatoire!!";
+    messageLieu.className= "mt-2 text-sm text-red-400";
+    return false;
+  }
+  messageLieu.textContent = "";
+  return true;
+}
+
+export function validateLieumatch (){
+  const lmChoisi = lieuMatch.querySelector(
+    'input[type="radio"]:checked'
+  );
+  if(!lmChoisi){
+    messageLM.textContent = "Lieu de travaille est obligatoire!!"
+    messageLM.className ="mt-2 text-sm text-red-400";
+    return false
+    }
+    messageLM.textContent = ""; 
+    return true;
+}
