@@ -11,7 +11,8 @@ import {
     containir,
     fermerModale,
     ajoutBtn,
-    match
+    match,
+    ouvrirModaleUpdate
 } from "./donnees-initiales.js";
 
 import {
@@ -32,6 +33,8 @@ validateHeure();
 validateLieu();
 validateLieumatch();
 
+
+let matchUpdate = null;
 // Affichage du match
 export function afficherMatch(ball) {
 
@@ -72,6 +75,22 @@ export function afficherMatch(ball) {
     btnModifier.type = "button";
     btnModifier.textContent = "✏️";
 
+    btnModifier.addEventListener("click",() => {
+        matchUpdate = ball ;
+        adv.value = ball.adversaire;
+        date.value = ball.date;
+        heure.value = ball.heure;
+        lieu.value = ball.lieu;
+      const radio = lieuMatch.querySelector(
+        `input[name="lieu-match"][value="${ball.lieuMatch}"]`
+      );
+      if(radio){
+        radio.checked = true ; 
+      }
+    ouvrirModaleUpdate();
+    });
+
+    //  suppression :
     const btnSupprimer = document.createElement("button");
     btnSupprimer.type = "button";
     btnSupprimer.textContent = "🗑️";
@@ -115,10 +134,22 @@ export function ajoutMatch(event) {
             'input[name="lieu-match"]:checked'
         ).value
     };
+    if(matchUpdate === null){
+        ajouterMatch(ball);
+    }else{
+        const index = match.indexOf(matchUpdate);
+        if(index !== -1){
+            match[index] = ball
+        }
+        matchUpdate = null ;
+    }
 
-    ajouterMatch(ball);
     refreshLocalStorageMatch();
-    afficherMatch(ball);
+containir.innerHTML = "";
+
+    match.forEach(function(ball) {
+        afficherMatch(ball);
+    });
     fermerModale();
 }
 
@@ -131,4 +162,3 @@ match.forEach(function(ball) {
     afficherMatch(ball);
 });
 ajoutMatchInit();
-

@@ -4,6 +4,7 @@ const ouvrirBtn = document.querySelector("#ouvrir");
 const fermerBtn = document.querySelector("#fermer");
 const annulerBtn = document.querySelector("#annuler");
 const formulaire = document.querySelector("#formulaire");
+const titreModal = document.querySelector("#titre-modale");
 
 export const ajoutBtn = document.querySelector("#ajouter");
 export const containir = document.querySelector(".match-containir");
@@ -22,6 +23,8 @@ export const messageLM = document.querySelector("#valide-check");
 
 export function ouvrirModale() {
     formulaire.reset();
+    ajoutBtn.textContent = "Ajouter";
+    titreModal.textContent = "Ajouter un Match";
     messageLM.textContent = "";
     messageLieu.textContent = "";
     messageHeure.textContent = "";
@@ -36,6 +39,8 @@ export function fermerModale() {
     modale.classList.remove("flex");
 
     formulaire.reset();
+    ajoutBtn.textContent = "Ajouter";
+    titreModal.textContent = "Ajouter un Match";
     messageLM.textContent = "";
     messageLieu.textContent = "";
     messageHeure.textContent = "";
@@ -70,3 +75,9 @@ export function setMatch(nv) {
     match = nv;
 }
 
+export function ouvrirModaleUpdate() {
+    ajoutBtn.textContent = "Modifier";
+    titreModal.textContent = "Modifier un Match";
+    modale.classList.remove("hidden");
+    modale.classList.add("flex");
+}
