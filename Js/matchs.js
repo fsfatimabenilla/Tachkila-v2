@@ -25,6 +25,9 @@ import {
 } from "./validation.js";
 
 import { refreshLocalStorageMatch , refreshMatch} from "./stockage.js";
+import {
+    messageshow
+} from "./interface.js";
 
 gesModal();
 validateAdvInit();
@@ -101,6 +104,7 @@ export function afficherMatch(ball) {
             supprimerMatch(ball);
             refreshLocalStorageMatch();
             carte.remove();
+             messageshow("Match supprimé avec succès !", "succes");
         }
     });
     
@@ -114,6 +118,7 @@ export function afficherMatch(ball) {
 export function ajoutMatch(event) {
 
     event.preventDefault();
+    const modification = matchUpdate !== null;
 
     const vaAdvd = validateAdv();
     const vaDate = validateDate();
@@ -134,7 +139,7 @@ export function ajoutMatch(event) {
             'input[name="lieu-match"]:checked'
         ).value
     };
-    if(matchUpdate === null){
+    if(!modification){
         ajouterMatch(ball);
     }else{
         const index = match.indexOf(matchUpdate);
@@ -151,6 +156,12 @@ containir.innerHTML = "";
         afficherMatch(ball);
     });
     fermerModale();
+
+if (modification) {
+    messageshow("Match modifié avec succès !", "succes");
+} else {
+    messageshow("Match ajouté avec succès !", "succes");
+}
 }
 
 export function ajoutMatchInit() {

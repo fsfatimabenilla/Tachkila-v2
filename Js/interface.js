@@ -16,7 +16,7 @@ export const messageNom = document.querySelector("#valide");
 export const messagePoste = document.querySelector("#poste-message");
 export const messageNumero = document.querySelector("#numero-message");
 export const messageAge = document.querySelector('#age-message');
-export const message = document.querySelector("#message");
+export const message = document.querySelector("#message, #form-msg");
 
 export const joueursContainer = document.querySelector("#joueurs-container");
 export const compteur = document.querySelector("#compteur");

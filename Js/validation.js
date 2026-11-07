@@ -185,8 +185,6 @@ export function validateHeure() {
 
 export function validateLieu() {
   if (lieu.value.trim() === "") {
-    messageLieu.textContent = "Le lieu est obligatoire!!";
-    messageLieu.className= "mt-2 text-sm text-red-400";
     return false;
   }
   messageLieu.textContent = "";
