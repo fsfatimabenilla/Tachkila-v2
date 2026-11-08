@@ -13,7 +13,9 @@ import {
     ajoutBtn,
     match,
     ouvrirModaleUpdate,
-    rechercheInput
+    rechercheInput,
+    ouvrirModaleScore,
+    fermerModaleScore
 } from "./donnees-initiales.js";
 
 import {
@@ -124,6 +126,9 @@ export function afficherMatch(ball) {
         btnScore.type = "button";
         btnScore.textContent = "Saisir le score";
         btnScore.className = "bg-blue-600 text-white font-semibold py-2 px-3 rounded-xl";
+        btnScore.addEventListener("click",function(){
+        ouvrirModaleScore(ball);
+    });
 
         action.append(btnScore);
     }
@@ -131,6 +136,8 @@ export function afficherMatch(ball) {
     
 
     containir.append(carte);
+
+    
 }
 
 export function searchNDfiltre(){

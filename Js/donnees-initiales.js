@@ -23,6 +23,16 @@ export const messageLM = document.querySelector("#valide-check");
 
 export const rechercheInput = document.querySelector("#recherche");
 
+const modaleScore  = document.querySelector("#modale-score");
+const formulaireSc = document.querySelector("#form-score");
+export const scoreEquipe = document.querySelector("#sc-equipe");
+export const scoreAdv = document.querySelector("#sc-adv");
+export const fermerScore = document.querySelector("#fermer-score");
+export const annulerScore = document.querySelector("#annuler-sc");
+export const messageScore = document.querySelector("#mssg-sc");
+
+export let score = null;
+
 
 export function ouvrirModale() {
     formulaire.reset();
@@ -85,3 +95,28 @@ export function ouvrirModaleUpdate() {
     modale.classList.add("flex");
 }
 
+
+
+export function ouvrirModaleScore(ball) {
+    score = ball;
+    formulaireSc.reset();
+    // ajoutBtn.textContent = "Ajouter";
+    // titreModal.textContent = "Ajouter un Match";
+    messageScore.textContent = "";
+
+    modaleScore.classList.remove("hidden");
+    modaleScore.classList.add("flex");
+}
+
+export function fermerModaleScore() {
+    modaleScore.classList.add("hidden");
+    modaleScore.classList.remove("flex");
+
+    formulaireSc.reset();
+    // ajoutBtn.textContent = "Ajouter";
+    // titreModal.textContent = "Ajouter un Match";
+   messageScore.textContent = "";
+   score = null;
+}
+fermerScore.addEventListener("click",fermerModaleScore);
+annulerScore.addEventListener("click",fermerModaleScore);
