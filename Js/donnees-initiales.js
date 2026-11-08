@@ -91,6 +91,14 @@ export function setMatch(nv) {
 export function ouvrirModaleUpdate() {
     ajoutBtn.textContent = "Modifier";
     titreModal.textContent = "Modifier un Match";
+
+     messageAdv.textContent = "";
+    messageDate.textContent = "";
+    messageHeure.textContent = "";
+    messageLieu.textContent = "";
+    messageLM.textContent = "";
+
+
     modale.classList.remove("hidden");
     modale.classList.add("flex");
 }

@@ -60,15 +60,15 @@ export function afficherMatch(ball) {
     infoMT.className = "flex flex-col gap-3 flex-1";
 
     const adversaire = document.createElement("h3");
-    adversaire.className = "text-sky-300 text-xl font-bold";
+    adversaire.className = "text-sky-300 text-xl font-semibold";
     adversaire.textContent = ball.adversaire;
 
     const lieuM = document.createElement("p");
-    lieuM.className = "text-white text-sm";
+    lieuM.className = "text-slate-300 text-sm font-bold ";
     lieuM.textContent = ball.lieu;
 
     const lieuMT = document.createElement("p");
-    lieuMT.className = "text-white text-sm";
+    lieuMT.className = "text-white text-sm bg-slate-400 rounded-2xl w-fit";
     lieuMT.textContent = ball.lieuMatch;
 
     infoMT.append(adversaire, lieuM, lieuMT);
@@ -229,6 +229,10 @@ export function ajoutMatch(event) {
             'input[name="lieu-match"]:checked'
         ).value
     };
+    if(modification){
+         ball.scoreEquipe = matchUpdate.scoreEquipe;
+    ball.scoreAdv = matchUpdate.scoreAdv;
+    }
     if(!modification){
         ajouterMatch(ball);
     }else{
