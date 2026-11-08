@@ -122,9 +122,30 @@ export function afficherMatch(ball) {
 
     const action = document.createElement("div");
     action.className = "flex  items-center  gap-2"
+
+    if(ball.scoreEquipe !== undefined && ball.scoreAdv !== undefined){
+
+        const resultat = document.createElement("p");
+        resultat.textContent  = `Score : ${ball.scoreEquipe} - ${ball.scoreAdv}`;
+         if (ball.scoreEquipe > ball.scoreAdv) {
+            resultat.textContent += " | Victoire";
+            resultat.className = "text-green-400 font-bold";
+        }
+        else if (ball.scoreEquipe < ball.scoreAdv) {
+            resultat.textContent += " | Défaite";
+            resultat.className = "text-red-400 font-bold";
+        }
+        else {
+            resultat.textContent += " | Nul";
+            resultat.className = "text-gray-300 font-bold";
+        }
+        action.append(resultat);
+    }
+
+
     // vérification si le match est passé :
     const dateMatch = new Date(`${ball.date}T${ball.heure}`).getTime();
-    if(Date.now() > dateMatch){
+    if(Date.now() > dateMatch && ball.scoreEquipe === undefined){
             console.log("Match passé :", ball.adversaire);
 
         const btnScore = document.createElement("button");
