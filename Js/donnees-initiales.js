@@ -21,6 +21,9 @@ export const messageHeure = document.querySelector("#valide-heure");
 export const messageLieu = document.querySelector("#valide-lieu");
 export const messageLM = document.querySelector("#valide-check");
 
+export const rechercheInput = document.querySelector("#recherche");
+
+
 export function ouvrirModale() {
     formulaire.reset();
     ajoutBtn.textContent = "Ajouter";
@@ -81,3 +84,4 @@ export function ouvrirModaleUpdate() {
     modale.classList.remove("hidden");
     modale.classList.add("flex");
 }
+

@@ -12,7 +12,8 @@ import {
     fermerModale,
     ajoutBtn,
     match,
-    ouvrirModaleUpdate
+    ouvrirModaleUpdate,
+    rechercheInput
 } from "./donnees-initiales.js";
 
 import {
@@ -38,6 +39,10 @@ validateLieumatch();
 
 
 let matchUpdate = null;
+
+const filtre = document.querySelector("#filtre");
+let filtreChoisi = "Tous";
+
 // Affichage du match
 export function afficherMatch(ball) {
 
@@ -114,6 +119,44 @@ export function afficherMatch(ball) {
     containir.append(carte);
 }
 
+export function searchNDfiltre(){
+    const recherche = rechercheInput.value.trim().toLowerCase();
+    const choiFiltre = match.filter(function(ball){
+        const dateMatch = new Date (`${ball.date}T${ball.heure}`).getTime();
+        const Now = Date.now();
+        const matchFiltr = filtreChoisi === "Tous" || (filtreChoisi ===  "A-venir" && dateMatch>Now)||
+         (filtreChoisi === "Jouee" && dateMatch <= Now);
+         const matchSearch = ball.adversaire.toLowerCase().includes(recherche);
+         return matchFiltr && matchSearch;
+    });
+
+    containir.innerHTML ="";
+    if(choiFiltre.length === 0){
+        const message = document.createElement("p");
+        message.textContent ="Aucun match trouvé !";
+        message.className = "text-center text-white text-lg p-4";
+        containir.append(message);
+        return;
+    }
+
+    choiFiltre.forEach(function(ball){
+        afficherMatch(ball)
+    });
+}
+filtre.addEventListener("click", function(event){
+    const btn = event.target.closest("button[data-poste]");
+    if(!btn) return;
+    filtreChoisi = btn.dataset.poste;
+    filtre.querySelectorAll("button").forEach(function(btn){
+        btn.classList.remove("bg-green-500");
+        btn.classList.add("hover:bg-slate-700");
+    });
+    btn.classList.add("bg-green-500");
+    btn.classList.remove("hover:bg-slate-700");
+    searchNDfiltre();
+});
+rechercheInput.addEventListener("input",searchNDfiltre);
+
 // Ajout du match
 export function ajoutMatch(event) {
 
@@ -152,9 +195,7 @@ export function ajoutMatch(event) {
     refreshLocalStorageMatch();
 containir.innerHTML = "";
 
-    match.forEach(function(ball) {
-        afficherMatch(ball);
-    });
+   searchNDfiltre();
     fermerModale();
 
 if (modification) {
@@ -169,7 +210,5 @@ export function ajoutMatchInit() {
 }
 refreshMatch();
 
-match.forEach(function(ball) {
-    afficherMatch(ball);
-});
+searchNDfiltre();
 ajoutMatchInit();
