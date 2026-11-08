@@ -112,9 +112,23 @@ export function afficherMatch(ball) {
              messageshow("Match supprimé avec succès !", "succes");
         }
     });
-    
 
-    carte.append(carteTime, infoMT, btnModifier, btnSupprimer);
+    const action = document.createElement("div");
+    action.className = "flex  items-center  gap-2"
+    // vérification si le match est passé :
+    const dateMatch = new Date(`${ball.date}T${ball.heure}`).getTime();
+    if(Date.now() > dateMatch){
+            console.log("Match passé :", ball.adversaire);
+
+        const btnScore = document.createElement("button");
+        btnScore.type = "button";
+        btnScore.textContent = "Saisir le score";
+        btnScore.className = "bg-blue-600 text-white font-semibold py-2 px-3 rounded-xl";
+
+        action.append(btnScore);
+    }
+        carte.append(carteTime, infoMT,action, btnModifier, btnSupprimer);
+    
 
     containir.append(carte);
 }
