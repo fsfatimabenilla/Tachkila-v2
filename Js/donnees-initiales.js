@@ -24,7 +24,7 @@ export const messageLM = document.querySelector("#valide-check");
 export const rechercheInput = document.querySelector("#recherche");
 
 const modaleScore  = document.querySelector("#modale-score");
-const formulaireSc = document.querySelector("#form-score");
+export const formulaireSc = document.querySelector("#form-score");
 export const scoreEquipe = document.querySelector("#sc-equipe");
 export const scoreAdv = document.querySelector("#sc-adv");
 export const fermerScore = document.querySelector("#fermer-score");

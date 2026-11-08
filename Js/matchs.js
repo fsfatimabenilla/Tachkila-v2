@@ -15,7 +15,12 @@ import {
     ouvrirModaleUpdate,
     rechercheInput,
     ouvrirModaleScore,
-    fermerModaleScore
+    fermerModaleScore,
+    scoreEquipe,
+    scoreAdv,
+    messageScore,
+    formulaireSc,
+    score
 } from "./donnees-initiales.js";
 
 import {
@@ -233,3 +238,22 @@ refreshMatch();
 
 searchNDfiltre();
 ajoutMatchInit();
+
+export function enregistreScore(event){
+    event.preventDefault();
+    const nosScore = Number(scoreEquipe.value);
+    const scAdversaire = Number(scoreAdv.value);
+    if(nosScore <0 || scAdversaire <0 || scoreEquipe.value === "" || scoreAdv.value === ""){
+        messageScore.textContent = "Ecrire un score valide !";
+        messageScore.className = "text-red-500 mt-3 text-sm";
+        return;
+    }
+    score.scoreEquipe = nosScore;
+    score.scoreAdv = scAdversaire;
+
+    refreshLocalStorageMatch();
+    fermerModaleScore();
+    searchNDfiltre();
+    messageshow("Score est enregistrée avec succès !", "succes");
+}
+formulaireSc.addEventListener("submit",enregistreScore);
