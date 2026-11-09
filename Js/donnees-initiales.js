@@ -126,5 +126,7 @@ export function fermerModaleScore() {
    messageScore.textContent = "";
    score = null;
 }
-fermerScore.addEventListener("click",fermerModaleScore);
-annulerScore.addEventListener("click",fermerModaleScore);
+if (fermerScore && annulerScore) {
+    fermerScore.addEventListener("click", fermerModaleScore);
+    annulerScore.addEventListener("click", fermerModaleScore);
+}
